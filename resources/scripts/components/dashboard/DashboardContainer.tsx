@@ -14,59 +14,116 @@ import Pagination from '@/components/elements/Pagination';
 import { useLocation } from 'react-router-dom';
 import NavigationBar from '@/components/NavigationBar';
 import AnnounceBar from '@/components/elements/AnnounceBar';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const dashboardStyles = `
+@keyframes dash-bg-pan {
+    0%   { background-position: 0 0; }
+    100% { background-position: 0 100px; }
+}
+@keyframes dash-title-in {
+    from { opacity: 0; transform: translateX(-20px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes dash-subtitle-in {
+    from { opacity: 0; transform: translateX(-12px); }
+    to   { opacity: 0.7; transform: translateX(0); }
+}
+@keyframes dash-line-expand {
+    from { width: 0; }
+    to   { width: 80px; }
+}
+@keyframes dash-filter-in {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes dash-empty-pulse {
+    0%, 100% { opacity: 0.4; }
+    50%       { opacity: 0.8; }
+}
+@keyframes dash-skeleton-shimmer {
+    0%   { background-position: -400px 0; }
+    100% { background-position: 400px 0; }
+}
+`;
 
 const RootContainer = styled.div`
     ${tw`w-full max-w-[1400px] mx-auto p-4 md:p-8`}
 `;
 
 const HeaderSection = styled.div`
-    ${tw`flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6`}
+    ${tw`flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-6`}
 `;
 
 const TitleBox = styled.div`
-    ${tw`text-left`} /* Force Left Alignment */
+    ${tw`text-left`}
+    animation: dash-title-in 0.5s ease both;
+`;
+
+const AccentLine = styled.div`
+    height: 3px;
+    background: linear-gradient(90deg, #e50914, transparent);
+    border-radius: 0;
+    margin-bottom: 16px;
+    animation: dash-line-expand 0.6s ease both 0.2s;
 `;
 
 const Title = styled.h1`
-    ${tw`text-5xl md:text-6xl font-black tracking-tighter text-white mb-2`}
+    ${tw`text-5xl md:text-6xl font-black tracking-tighter text-white mb-1`}
+    letter-spacing: -2px;
     span {
-        ${tw`text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-400 drop-shadow-md`}
+        background: linear-gradient(90deg, #e50914, #ff4444);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 `;
 
 const SubTitle = styled.p`
-    ${tw`text-gray-400 font-medium text-lg`}
+    ${tw`text-base font-medium`}
+    color: rgba(148,163,184,0.7);
+    letter-spacing: 0.5px;
+    animation: dash-subtitle-in 0.5s ease both 0.15s;
+    margin: 0;
 `;
 
-const FilterBar = styled.div`
-    ${tw`flex items-center gap-4 bg-black/40 backdrop-blur-md border border-red-500/20 rounded-none px-6 py-3`}
+const FilterBar = styled(motion.div)`
+    ${tw`flex items-center gap-4 px-5 py-3`}
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(229,9,20,0.2);
+    backdrop-filter: blur(8px);
+    animation: dash-filter-in 0.4s ease both 0.2s;
+`;
+
+const FilterLabel = styled.span`
+    ${tw`text-[11px] font-bold uppercase tracking-widest`}
+    color: #e50914;
 `;
 
 const Grid = styled.div`
-    ${tw`grid grid-cols-1 lg:grid-cols-2 gap-6 pb-20`}
-`;
-
-const FadeInEntry = styled.div<{ $delay: number }>`
-    animation: fadeInUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    opacity: 0;
-    transform: translateY(20px);
-    animation-delay: ${props => props.$delay}ms;
-
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+    ${tw`grid grid-cols-1 lg:grid-cols-2 gap-4 pb-20`}
 `;
 
 const SkeletonCard = styled.div`
-    ${tw`w-full h-[240px] rounded-[24px] bg-white/5 animate-pulse border border-white/5`}
+    height: 180px;
+    background: linear-gradient(90deg, #111 25%, #1a1a1a 50%, #111 75%);
+    background-size: 400px 100%;
+    animation: dash-skeleton-shimmer 1.4s infinite linear;
+    border: 1px solid rgba(255,255,255,0.04);
+    border-left: 3px solid rgba(229,9,20,0.2);
+`;
+
+const EmptyState = styled(motion.div)`
+    ${tw`col-span-2 flex flex-col items-center justify-center py-24 text-center gap-3`}
+    border: 1px dashed rgba(229,9,20,0.15);
+    background: rgba(229,9,20,0.02);
 `;
 
 export default () => {
     const { search } = useLocation();
     const defaultPage = Number(new URLSearchParams(search).get('page') || '1');
     const [page, setPage] = useState(!isNaN(defaultPage) && defaultPage > 0 ? defaultPage : 1);
-    
+
     const { clearFlashes, clearAndAddHttpError } = useFlash();
     const uuid = useStoreState((state) => state.user.data!.uuid);
     const username = useStoreState((state) => state.user.data!.username);
@@ -87,17 +144,23 @@ export default () => {
 
     return (
         <PageContentBlock title={'Dashboard'} showFlashKey={'dashboard'}>
+            <style dangerouslySetInnerHTML={{ __html: dashboardStyles }} />
             <NavigationBar />
             <RootContainer>
                 <HeaderSection>
                     <TitleBox>
+                        <AccentLine />
                         <Title>Hello, <span>{username}</span></Title>
-                        <SubTitle>System online. Waiting for instructions.</SubTitle>
+                        <SubTitle>System online — awaiting your command.</SubTitle>
                     </TitleBox>
 
                     {rootAdmin && (
-                        <FilterBar>
-                            <span css={tw`text-xs font-bold text-gray-400 uppercase tracking-wider`}>Admin Mode</span>
+                        <FilterBar
+                            initial={{ opacity: 0, x: 12 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.4, delay: 0.1 }}
+                        >
+                            <FilterLabel>Admin View</FilterLabel>
                             <Switch
                                 name={'show_all_servers'}
                                 defaultChecked={showOnlyAdmin}
@@ -106,32 +169,53 @@ export default () => {
                         </FilterBar>
                     )}
                 </HeaderSection>
-                
+
                 <AnnounceBar displayLocation="dashboard" />
 
-                {!servers ? (
-                    <Grid>
-                        {[1, 2, 3, 4].map(i => <SkeletonCard key={i} />)}
-                    </Grid>
-                ) : (
-                    <Pagination data={servers} onPageSelect={setPage}>
-                        {({ items }) => (
-                            items.length > 0 ? (
-                                <Grid>
-                                    {items.map((server, index) => (
-                                        <FadeInEntry key={server.uuid} $delay={index * 100}>
-                                            <ServerRow server={server} />
-                                        </FadeInEntry>
-                                    ))}
-                                </Grid>
-                            ) : (
-                                <div css={tw`col-span-2 py-32 text-center bg-white/5 rounded-[3rem] border border-dashed border-white/10`}>
-                                    <p css={tw`text-2xl text-gray-500 font-bold`}>No Servers Found</p>
-                                </div>
-                            )
-                        )}
-                    </Pagination>
-                )}
+                <AnimatePresence mode="wait">
+                    {!servers ? (
+                        <Grid key="skeleton">
+                            {[1, 2, 3, 4].map(i => <SkeletonCard key={i} />)}
+                        </Grid>
+                    ) : (
+                        <Pagination data={servers} onPageSelect={setPage}>
+                            {({ items }) =>
+                                items.length > 0 ? (
+                                    <Grid>
+                                        {items.map((server, index) => (
+                                            <motion.div
+                                                key={server.uuid}
+                                                initial={{ opacity: 0, y: 24 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{
+                                                    duration: 0.4,
+                                                    delay: index * 0.07,
+                                                    ease: [0.2, 0.8, 0.2, 1]
+                                                }}
+                                            >
+                                                <ServerRow server={server} />
+                                            </motion.div>
+                                        ))}
+                                    </Grid>
+                                ) : (
+                                    <EmptyState
+                                        initial={{ opacity: 0, scale: 0.97 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{ duration: 0.4 }}
+                                    >
+                                        <span style={{ fontSize: 36, opacity: 0.15 }}>◻</span>
+                                        <p style={{ color: '#374151', fontWeight: 700, fontSize: 14, letterSpacing: 1, textTransform: 'uppercase', margin: 0 }}>
+                                            No Servers Found
+                                        </p>
+                                        <p style={{ color: '#1f2937', fontSize: 12, margin: 0 }}>
+                                            Create or assign a server to get started.
+                                        </p>
+                                    </EmptyState>
+                                )
+                            }
+                        </Pagination>
+                    )}
+                </AnimatePresence>
             </RootContainer>
         </PageContentBlock>
     );
