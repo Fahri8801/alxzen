@@ -62,4 +62,32 @@ class ExpirationController extends Controller
 
         return redirect()->back()->with('success', "Server {$server->name} diperpanjang sampai {$newDate->format('d-m-Y H:i')}.");
     }
+
+    public function deleteAllExpired()
+    {
+        $servers = Server::query()
+            ->whereNotNull('expires_at')
+            ->where('expires_at', '<', Carbon::now())
+            ->get();
+
+        if ($servers->isEmpty()) {
+            return redirect()->back()->with('success', 'Tidak ada server expired yang perlu dihapus.');
+        }
+
+        $count = 0;
+        foreach ($servers as $server) {
+            try {
+                app(\Pterodactyl\Services\Servers\ServerDeletionService::class)->handle($server, false);
+                $count++;
+            } catch (\Exception $e) {
+                \Log::error("Gagal menghapus server expired (ID: {$server->id}): " . $e->getMessage());
+            }
+        }
+
+        if ($count > 0) {
+            return redirect()->back()->with('success', "Berhasil menghapus {$count} server expired. Proses penghapusan berjalan di background.");
+        }
+
+        return redirect()->back()->with('error', 'Gagal menghapus server expired. Silakan periksa log sistem.');
+    }
 }

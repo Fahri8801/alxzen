@@ -8,7 +8,11 @@
     <h1>{{ $server->name }}<small>{{ str_limit($server->description) }}</small></h1>
     <ol class="breadcrumb">
         <li><a href="{{ route('admin.index') }}">Admin</a></li>
-        <li><a href="{{ route('admin.servers') }}">Servers</a></li>
+        @if(strpos(url()->previous(), '/admin/expiration') !== false)
+            <li><a href="{{ route('admin.expiration') }}">Expiration Manager</a></li>
+        @else
+            <li><a href="{{ route('admin.servers') }}">Servers</a></li>
+        @endif
         <li class="active">{{ $server->name }}</li>
     </ol>
 @endsection

@@ -8,9 +8,12 @@
     <h1>{{ $server->name }}<small>Edit details for this server including owner and container.</small></h1>
     <ol class="breadcrumb">
         <li><a href="{{ route('admin.index') }}">Admin</a></li>
-        <li><a href="{{ route('admin.servers') }}">Servers</a></li>
-        <li><a href="{{ route('admin.servers.view', $server->id) }}">{{ $server->name }}</a></li>
-        <li class="active">Details</li>
+        @if(strpos(url()->previous(), '/admin/expiration') !== false)
+            <li><a href="{{ route('admin.expiration') }}">Expiration Manager</a></li>
+        @else
+            <li><a href="{{ route('admin.servers') }}">Servers</a></li>
+        @endif
+        <li class="active">{{ $server->name }}</li>
     </ol>
 @endsection
 

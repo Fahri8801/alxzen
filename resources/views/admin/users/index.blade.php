@@ -25,6 +25,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
     padding: 18px 24px;
     border-bottom: 1px solid rgba(99, 102, 241, 0.15);
     background: rgba(99, 102, 241, 0.05);
@@ -34,7 +36,7 @@
     letter-spacing: 0.3px; display: flex; align-items: center; gap: 8px; margin: 0;
 }
 .alx-card-title i { color: #818cf8; font-size: 14px; }
-.alx-search-group { display: flex; gap: 8px; align-items: center; }
+.alx-search-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .alx-search-group .form-control {
     background: rgba(15,23,42,0.8) !important;
     border: 1px solid rgba(99,102,241,0.3) !important;

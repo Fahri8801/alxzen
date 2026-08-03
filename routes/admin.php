@@ -146,6 +146,7 @@ Route::group(['prefix' => 'nests', 'middleware' => 'admin.superuser'], function 
 
 Route::group(['prefix' => 'expiration'], function () {
     Route::get('/', [Admin\ExpirationController::class, 'index'])->name('admin.expiration');
+    Route::post('/delete-all', [Admin\ExpirationController::class, 'deleteAllExpired'])->name('admin.expiration.deleteAll');
     Route::post('/{id}', [Admin\ExpirationController::class, 'update'])->name('admin.expiration.update');
 });
 

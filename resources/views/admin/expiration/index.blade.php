@@ -65,6 +65,8 @@
 .alx-btn-set:hover { background:rgba(99,102,241,0.35); color:#a5b4fc; }
 .alx-btn-add30 { background:rgba(34,197,94,0.12); color:#4ade80; border:1px solid rgba(34,197,94,0.25); height:32px; padding:0 10px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
 .alx-btn-add30:hover { background:rgba(34,197,94,0.25); }
+.alx-btn-delete-all { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; border: none; }
+.alx-btn-delete-all:hover { background: linear-gradient(135deg, #dc2626, #b91c1c); color: #fff; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(239,68,68,0.4); }
 .alx-pagination { display:flex; justify-content:center; padding:16px 24px; border-top:1px solid rgba(99,102,241,0.15); }
 .alx-server-name { font-weight:600; color:#e2e8f0; }
 .alx-username { color:#a5b4fc; font-size:13px; }
@@ -78,12 +80,16 @@
         <div class="alx-card">
             <div class="alx-card-header">
                 <h3 class="alx-card-title"><i class="fa fa-clock-o"></i> Expiration Manager</h3>
-                <form action="{{ route('admin.expiration') }}" method="GET">
-                    <div class="alx-search-group">
+                <div class="alx-search-group" style="flex: 1; justify-content: flex-end;">
+                    <form action="{{ route('admin.expiration') }}" method="GET" style="display:inline-flex; gap: 8px;">
                         <input type="text" name="filter[*]" class="form-control" value="{{ request()->input()['filter']['*'] ?? '' }}" placeholder="Search server name...">
                         <button type="submit" class="alx-btn alx-btn-search"><i class="fa fa-search"></i> Search</button>
-                    </div>
-                </form>
+                    </form>
+                    <form action="{{ route('admin.expiration.deleteAll') }}" method="POST" style="display:inline-flex;" onsubmit="return confirm('Are you sure you want to delete all expired servers? This action cannot be undone and will delete server files and databases.');">
+                        {!! csrf_field() !!}
+                        <button type="submit" class="alx-btn alx-btn-delete-all"><i class="fa fa-trash"></i> Delete All Expired</button>
+                    </form>
+                </div>
             </div>
 
             <div style="overflow-x: auto;">

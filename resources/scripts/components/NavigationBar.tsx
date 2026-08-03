@@ -52,7 +52,8 @@ const SidebarOverlay = styled.div<{ $open: boolean }>`
 `;
 
 const Sidebar = styled.div<{ $open: boolean }>`
-    ${tw`fixed top-0 left-0 bottom-0 w-[300px] bg-[#09090b] border-r border-white/10 z-[70] flex flex-col shadow-2xl`}
+    ${tw`fixed top-0 left-0 bottom-0 w-[300px] border-r border-white/10 z-[70] flex flex-col shadow-2xl backdrop-blur-2xl`}
+    background: linear-gradient(180deg, rgba(9, 9, 11, 0.85) 0%, rgba(20, 20, 25, 0.95) 100%);
     transform: translateX(${props => props.$open ? '0%' : '-100%'});
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 `;
