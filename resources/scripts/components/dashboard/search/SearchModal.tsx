@@ -22,10 +22,10 @@ interface Values {
 }
 
 const ServerResult = styled(Link)`
-    ${tw`flex items-center bg-neutral-900 p-4 rounded border-l-4 border-neutral-900 no-underline transition-all duration-150`};
+    ${tw`flex items-center bg-black/40 p-4 rounded-none border-l-4 border-black/40 no-underline transition-all duration-150`};
 
     &:hover {
-        ${tw`shadow border-cyan-500`};
+        ${tw`shadow-lg border-red-600 bg-red-900/10`};
     }
 
     &:not(:last-of-type) {
@@ -119,7 +119,7 @@ export default ({ ...props }: Props) => {
                                         </p>
                                     </div>
                                     <div css={tw`flex-none text-right`}>
-                                        <span css={tw`text-xs py-1 px-2 bg-cyan-800 text-cyan-100 rounded`}>
+                                        <span css={tw`text-xs py-1 px-2 bg-red-900/40 text-red-400 border border-red-500/30 rounded-none`}>
                                             {server.node}
                                         </span>
                                     </div>

@@ -1930,3 +1930,10 @@ After nearly a month in the works, version `v0.5.0` is finally here! 🎉
 
 ### Security
 * Fixes listing of server variables for server. Previously a bug made it possible to view settings for all servers, even if the user didn't own that server. ([#69](https://github.com/Pterodactyl/Panel/issues/69))
+
+ # #   [ 3 . 9 ]   -   2 0 2 6 - 0 8 - 0 3 
+ -   R e d e s i g n e d   S e r v e r R o w   f o r   a   m o r e   s o l i d ,   R O G - i n s p i r e d   a e s t h e t i c 
+ -   R e f i n e d   E x p i r a t i o n   M a n a g e r   l a y o u t   a n d   i n t e r a c t i o n s 
+ -   U p d a t e d   N a v b a r   a n d   S e a r c h M o d a l   w i t h   s h a r p   e d g e s   a n d   r e d   a c c e n t s 
+ -   B u i l t   a n d   u p d a t e d   a s s e t s   f o r   p r o d u c t i o n  
+ 

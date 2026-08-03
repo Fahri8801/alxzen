@@ -11,48 +11,29 @@ import isEqual from 'react-fast-compare';
 import { motion } from 'framer-motion';
 
 const CardWrapper = styled(motion(Link))<{ $status: string }>`
-    ${tw`relative block w-full rounded-3xl overflow-hidden backdrop-blur-md`}
-    background: linear-gradient(180deg, rgba(30, 30, 35, 0.7), rgba(15, 15, 20, 0.95));
+    ${tw`relative block w-full rounded-none overflow-hidden`}
+    background: linear-gradient(145deg, #121212 0%, #0a0a0a 100%);
     
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(229, 9, 20, 0.1);
+    border-left: 4px solid ${({ $status }) => 
+        $status === 'running' ? '#4ade80' : 
+        $status === 'starting' ? '#60a5fa' :
+        $status === 'offline' ? '#e50914' : '#facc15'};
         
-    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+    box-shadow: 0 8px 30px -10px rgba(0,0,0,0.8);
     
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
     &:hover {
-        transform: translateY(-4px) scale(1.01);
-        background: linear-gradient(180deg, rgba(40, 40, 45, 0.8), rgba(20, 20, 25, 0.95));
-        border-color: ${({ $status }) => 
-            $status === 'running' ? 'rgba(34, 197, 94, 0.4)' : 
-            $status === 'starting' ? 'rgba(96, 165, 250, 0.5)' :
-            $status === 'offline' ? 'rgba(239, 68, 68, 0.3)' : 'rgba(234, 179, 8, 0.4)'};
+        transform: translateY(-2px);
+        background: linear-gradient(145deg, #181818 0%, #0f0f0f 100%);
+        border-color: rgba(229, 9, 20, 0.4);
+        border-left-color: ${({ $status }) => 
+            $status === 'running' ? '#4ade80' : 
+            $status === 'starting' ? '#60a5fa' :
+            $status === 'offline' ? '#ff0033' : '#facc15'};
         
-        box-shadow: ${({ $status }) => 
-            $status === 'running' ? '0 20px 40px -10px rgba(34, 197, 94, 0.25)' : 
-            $status === 'starting' ? '0 20px 40px -10px rgba(96, 165, 250, 0.3)' :
-            $status === 'offline' ? '0 20px 40px -10px rgba(239, 68, 68, 0.2)' : '0 20px 40px -10px rgba(234, 179, 8, 0.25)'};
-            
-        &::before {
-            opacity: 1;
-            width: 100%;
-        }
-    }
-
-
-    &::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 50%;
-        transform: translateX(-50%);
-        width: 40%;
-        height: 2px;
-        background: ${({ $status }) => 
-            $status === 'running' ? 'linear-gradient(90deg, transparent, #4ade80, transparent)' : 
-            $status === 'starting' ? 'linear-gradient(90deg, transparent, #60a5fa, transparent)' :
-            $status === 'offline' ? 'linear-gradient(90deg, transparent, #f87171, transparent)' : 'linear-gradient(90deg, transparent, #facc15, transparent)'};
-        opacity: ${({ $status }) => $status === 'running' ? '0.7' : '0.3'};
-        transition: all 0.4s ease;
+        box-shadow: 0 12px 35px -10px rgba(229, 9, 20, 0.3);
     }
 `;
 
@@ -65,11 +46,11 @@ const ServerName = styled.h3`
 `;
 
 const ConnectionInfo = styled.div`
-    ${tw`flex items-center gap-2 text-xs font-mono text-indigo-300 bg-indigo-500/10 px-4 py-2 rounded-xl border border-indigo-500/20 w-max`}
+    ${tw`flex items-center gap-2 text-xs font-mono text-gray-400 bg-black/40 px-4 py-2 rounded-none border border-red-500/20 w-max`}
 `;
 
 const StatusBadge = styled.div<{ $status: string }>`
-    ${tw`flex items-center gap-2 px-4 py-2 rounded-xl font-black text-[11px] uppercase tracking-widest shadow-lg`}
+    ${tw`flex items-center gap-2 px-4 py-2 rounded-none font-black text-[11px] uppercase tracking-widest shadow-lg`}
     
     background-color: ${({ $status }) => 
         $status === 'running' ? 'rgba(34, 197, 94, 0.15)' : 
@@ -103,8 +84,8 @@ const StatsGrid = styled.div`
     ${tw`grid grid-cols-3 divide-x divide-white/5 p-6 bg-black/10`}
 `;
 
-const StatBox = styled.div`
-    ${tw`flex flex-col items-center justify-center px-4 text-center group`}
+const StatBox = styled.div.attrs({ className: 'group' })`
+    ${tw`flex flex-col items-center justify-center px-4 text-center`}
 `;
 
 const StatValue = styled.div`
@@ -119,14 +100,14 @@ const StatLabel = styled.div`
 `;
 
 const ProgressBarContainer = styled.div`
-    ${tw`w-full h-2 bg-black/40 rounded-full overflow-hidden border border-white/5`}
+    ${tw`w-full h-1.5 bg-[#1a1a1a] rounded-none overflow-hidden border-b border-white/5`}
 `;
 
 const ProgressBarFill = styled.div<{ $percent: number; $color: string }>`
-    ${tw`h-full rounded-full transition-all duration-1000 ease-out`}
+    ${tw`h-full rounded-none transition-all duration-1000 ease-out`}
     width: ${props => props.$percent}%;
     background: linear-gradient(90deg, transparent, ${props => props.$color});
-    box-shadow: 0 0 15px ${props => props.$color};
+    box-shadow: 0 0 10px ${props => props.$color};
 `;
 
 export default memo(({ server, className }: { server: Server; className?: string }) => {
@@ -198,7 +179,7 @@ export default memo(({ server, className }: { server: Server; className?: string
                         <ProgressBarContainer>
                             <ProgressBarFill 
                                 $percent={Math.min(stats!.cpuUsagePercent, 100)} 
-                                $color="#60a5fa" // Blue
+                                $color="#e50914" // ROG Red
                             />
                         </ProgressBarContainer>
                     </StatBox>
@@ -210,7 +191,7 @@ export default memo(({ server, className }: { server: Server; className?: string
                         <ProgressBarContainer>
                             <ProgressBarFill 
                                 $percent={(stats!.memoryUsageInBytes / (memoryLimit * 1024 * 1024)) * 100} 
-                                $color="#c084fc" // Purple
+                                $color="#ff3333" // Bright Red
                             />
                         </ProgressBarContainer>
                     </StatBox>
@@ -222,7 +203,7 @@ export default memo(({ server, className }: { server: Server; className?: string
                         <ProgressBarContainer>
                             <ProgressBarFill 
                                 $percent={(stats!.diskUsageInBytes / (diskLimit * 1024 * 1024)) * 100} 
-                                $color="#f472b6" // Pink
+                                $color="#ff0000" // Pure Red
                             />
                         </ProgressBarContainer>
                     </StatBox>

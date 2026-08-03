@@ -23,7 +23,7 @@ export default () => {
             <Tooltip placement={'bottom'} content={'Search'}>
                 <button
                     onClick={() => setVisible(true)}
-                    css={tw`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-xl text-white transition-all duration-300 bg-white/5 border border-white/5 hover:bg-indigo-500/20 hover:border-indigo-500/50 hover:scale-105`}
+                    css={tw`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-none text-white transition-all duration-300 bg-black/40 border border-white/5 hover:bg-red-500/20 hover:border-red-500/50 hover:text-red-400 hover:scale-105`}
                 >
                     <FontAwesomeIcon icon={faSearch} />
                 </button>

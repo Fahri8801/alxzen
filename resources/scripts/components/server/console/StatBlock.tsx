@@ -16,16 +16,16 @@ interface StatBlockProps {
 }
 
 const StatContainer = styled.div`
-    ${tw`relative flex flex-col justify-center rounded-2xl p-5 overflow-hidden transition-all duration-300`}
+    ${tw`relative flex flex-col justify-center rounded-none p-5 overflow-hidden transition-all duration-300`}
     background-color: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(12px);
     
     &:hover {
         background-color: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(99, 102, 241, 0.3);
+        border: 1px solid rgba(229, 9, 20, 0.5);
         transform: translateY(-2px);
-        box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.15);
+        box-shadow: 0 10px 30px -10px rgba(229, 9, 20, 0.25);
     }
 `;
 
@@ -37,7 +37,7 @@ const IconWrapper = styled.div<{ $color?: string }>`
             if (props.$color?.includes('red')) return tw`text-red-500`;
             if (props.$color?.includes('yellow')) return tw`text-yellow-500`;
             if (props.$color?.includes('green')) return tw`text-green-500`;
-            return tw`text-indigo-500`;
+            return tw`text-red-600`;
         }}
     }
     

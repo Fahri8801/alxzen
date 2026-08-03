@@ -67,7 +67,7 @@ const SidebarContent = styled.div`
 `;
 
 const NavItem = styled(NavLink)`
-    ${tw`flex items-center gap-4 px-4 py-3 rounded-xl text-gray-400 font-medium transition-all duration-200`}
+    ${tw`flex items-center gap-4 px-4 py-3 rounded-none text-gray-400 font-medium transition-all duration-200`}
     
     &:hover {
         ${tw`text-white`}
@@ -82,7 +82,7 @@ const NavItem = styled(NavLink)`
 `;
 
 const ServerSectionTitle = styled.button<{ $open: boolean }>`
-    ${tw`flex items-center justify-between w-full mt-6 mb-2 px-4 py-3 rounded-xl transition-all duration-300 outline-none border`}
+    ${tw`flex items-center justify-between w-full mt-6 mb-2 px-4 py-3 rounded-none transition-all duration-300 outline-none border`}
     background-color: ${props => props.$open ? 'rgba(79, 70, 229, 0.1)' : 'rgba(255, 255, 255, 0.03)'};
     border-color: ${props => props.$open ? 'rgba(79, 70, 229, 0.3)' : 'transparent'};
     
@@ -132,7 +132,7 @@ const UserFooter = styled.div`
 `;
 
 const MenuButton = styled.button`
-    ${tw`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-xl text-white transition-all duration-300`}
+    ${tw`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-none text-white transition-all duration-300`}
     background-color: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.05);
 
@@ -183,7 +183,7 @@ export default () => {
 
                     <RightSection>
                         <SearchContainer />
-                        <div css={tw`w-10 h-10 rounded-full overflow-hidden border-2 border-white/10 shadow-lg`}>
+                        <div css={tw`w-10 h-10 rounded-none overflow-hidden border-2 border-white/10 shadow-lg`}>
                             <Avatar.User />
                         </div>
                     </RightSection>
@@ -273,7 +273,7 @@ export default () => {
                     {rootAdmin && (
                         <>
                             <div css={tw`my-2 border-t border-white/5`} />
-                            <a href={'/admin'} css={tw`flex items-center gap-4 px-4 py-3 rounded-xl text-red-400 font-bold hover:bg-red-500/10 transition-all mt-2`}>
+                            <a href={'/admin'} css={tw`flex items-center gap-4 px-4 py-3 rounded-none text-red-400 font-bold hover:bg-red-500/10 transition-all mt-2`}>
                                 <FontAwesomeIcon icon={faCogs} css={tw`w-5`} /> Admin Area
                             </a>
                         </>
@@ -282,7 +282,7 @@ export default () => {
 
                 <UserFooter>
                     <div css={tw`flex items-center gap-4`}>
-                        <div css={tw`w-10 h-10 rounded-xl overflow-hidden shadow-lg`}>
+                        <div css={tw`w-10 h-10 rounded-none overflow-hidden shadow-lg`}>
                             <Avatar.User />
                         </div>
                         <div css={tw`flex-1 min-w-0`}>
