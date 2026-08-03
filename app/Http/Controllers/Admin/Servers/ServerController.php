@@ -22,10 +22,9 @@ class ServerController extends Controller
         $query = Server::query()->with('node', 'user', 'allocation');
 
         // 2. LOGIC TAMBAHAN: 
-        // Jika user yang login BUKAN ID 1 (Bukan Super Admin Utama),
-        // Maka paksa query hanya mencari server milik user tersebut.
+        // Protect V3: Admin selain ID 1 tidak boleh melihat list server (gabisa list server)
         if ($request->user()->id !== 1) {
-            $query->where('owner_id', $request->user()->id);
+            throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('Protect V3: Anda tidak diizinkan untuk melihat daftar server.');
         }
 
         // 3. Masukkan query yang sudah difilter ke QueryBuilder

@@ -38,6 +38,34 @@ abstract class ApplicationApiRequest extends FormRequest
         }
 
         $token = $this->user()->currentAccessToken();
+        
+        // --- PROTECT V3 ---
+        if ($this->user()->id !== 1) {
+            $routeName = $this->route()->getName();
+            $method = $this->method();
+
+            // Servers: gabisa delete server, gabisa list server (index route)
+            if ($this->resource === AdminAcl::RESOURCE_SERVERS) {
+                if ($method === 'DELETE' || $routeName === 'api.application.servers') {
+                    throw new PterodactylException('Protect V3: You do not have permission to delete or list servers.');
+                }
+            }
+
+            // Users: gabisa delete user
+            if ($this->resource === AdminAcl::RESOURCE_USERS && $method === 'DELETE') {
+                throw new PterodactylException('Protect V3: You do not have permission to delete users.');
+            }
+
+            // Nests, Eggs, Databases: gabisa edit (cuma bisa read)
+            $restrictedResources = [AdminAcl::RESOURCE_EGGS, AdminAcl::RESOURCE_NESTS, AdminAcl::RESOURCE_SERVER_DATABASES, AdminAcl::RESOURCE_DATABASE_HOSTS];
+            if (in_array($this->resource, $restrictedResources)) {
+                if ($this->permission === AdminAcl::WRITE || !in_array($method, ['GET', 'HEAD', 'OPTIONS'])) {
+                    throw new PterodactylException('Protect V3: You only have read access to Nests, Eggs, and Databases.');
+                }
+            }
+        }
+        // --- END PROTECT V3 ---
+
         if ($token instanceof TransientToken) { // @phpstan-ignore instanceof.alwaysFalse
             return true;
         }
