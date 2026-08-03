@@ -52,10 +52,11 @@ const SidebarOverlay = styled.div<{ $open: boolean }>`
 `;
 
 const Sidebar = styled.div<{ $open: boolean }>`
-    ${tw`fixed top-0 left-0 bottom-0 w-[300px] border-r border-white/10 z-[70] flex flex-col shadow-2xl backdrop-blur-2xl`}
-    background: linear-gradient(180deg, rgba(9, 9, 11, 0.85) 0%, rgba(20, 20, 25, 0.95) 100%);
+    ${tw`fixed top-0 left-0 bottom-0 w-[300px] border-r border-red-600/50 z-[70] flex flex-col backdrop-blur-2xl`}
+    background: linear-gradient(180deg, rgba(10, 10, 10, 0.95) 0%, rgba(5, 5, 5, 1) 100%);
+    box-shadow: ${props => props.$open ? '10px 0 30px rgba(229, 9, 20, 0.15)' : 'none'};
     transform: translateX(${props => props.$open ? '0%' : '-100%'});
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
 `;
 
 const SidebarHeader = styled.div`
@@ -67,28 +68,31 @@ const SidebarContent = styled.div`
 `;
 
 const NavItem = styled(NavLink)`
-    ${tw`flex items-center gap-4 px-4 py-3 rounded-none text-gray-400 font-medium transition-all duration-200`}
+    ${tw`flex items-center gap-4 px-4 py-3 rounded-none text-gray-400 font-medium transition-all duration-200 border-l-2 border-transparent`}
     
     &:hover {
         ${tw`text-white`}
-        background-color: rgba(255, 255, 255, 0.05);
+        background-color: rgba(229, 9, 20, 0.1);
+        border-left-color: rgba(229, 9, 20, 0.5);
     }
 
     &.active {
-        ${tw`text-indigo-400 border border-indigo-500/20`}
-        background-color: rgba(79, 70, 229, 0.1);
-        box-shadow: 0 0 20px rgba(79, 70, 229, 0.1);
+        ${tw`text-red-500 border-red-600`}
+        background-color: rgba(229, 9, 20, 0.15);
+        box-shadow: inset 20px 0 20px -20px rgba(229, 9, 20, 0.5);
     }
 `;
 
 const ServerSectionTitle = styled.button<{ $open: boolean }>`
-    ${tw`flex items-center justify-between w-full mt-6 mb-2 px-4 py-3 rounded-none transition-all duration-300 outline-none border`}
-    background-color: ${props => props.$open ? 'rgba(79, 70, 229, 0.1)' : 'rgba(255, 255, 255, 0.03)'};
-    border-color: ${props => props.$open ? 'rgba(79, 70, 229, 0.3)' : 'transparent'};
+    ${tw`flex items-center justify-between w-full mt-6 mb-2 px-4 py-3 rounded-none transition-all duration-300 outline-none border-l-2`}
+    background-color: ${props => props.$open ? 'rgba(229, 9, 20, 0.1)' : 'rgba(255, 255, 255, 0.03)'};
+    border-color: ${props => props.$open ? 'rgba(229, 9, 20, 0.5)' : 'transparent'};
+    border-right: none;
+    border-top: none;
+    border-bottom: none;
     
     &:hover {
-        background-color: ${props => props.$open ? 'rgba(79, 70, 229, 0.15)' : 'rgba(255, 255, 255, 0.05)'};
-        border-color: ${props => props.$open ? 'rgba(79, 70, 229, 0.5)' : 'rgba(255, 255, 255, 0.1)'};
+        background-color: ${props => props.$open ? 'rgba(229, 9, 20, 0.15)' : 'rgba(255, 255, 255, 0.05)'};
     }
 
     > div {
@@ -97,12 +101,12 @@ const ServerSectionTitle = styled.button<{ $open: boolean }>`
 
     .title-text {
         ${tw`text-xs font-bold uppercase tracking-wider transition-colors`}
-        color: ${props => props.$open ? '#818cf8' : '#9ca3af'};
+        color: ${props => props.$open ? '#f87171' : '#9ca3af'};
     }
 
     .icon {
         ${tw`w-4 h-4 transition-transform duration-300`}
-        color: ${props => props.$open ? '#818cf8' : '#6b7280'};
+        color: ${props => props.$open ? '#f87171' : '#6b7280'};
         transform: ${props => props.$open ? 'rotate(180deg)' : 'rotate(0deg)'};
     }
 `;
@@ -137,8 +141,9 @@ const MenuButton = styled.button`
     border: 1px solid rgba(255, 255, 255, 0.05);
 
     &:hover {
-        background-color: rgba(99, 102, 241, 0.2);
-        border-color: rgba(99, 102, 241, 0.5);
+        background-color: rgba(229, 9, 20, 0.2);
+        border-color: rgba(229, 9, 20, 0.5);
+        box-shadow: 0 0 15px rgba(229, 9, 20, 0.4);
         transform: scale(1.05);
     }
 `;
@@ -196,7 +201,7 @@ export default () => {
             <Sidebar $open={isOpen}>
                 <SidebarHeader>
                     <div css={tw`text-xl font-black text-white tracking-tight`}>
-                        Main<span css={tw`text-indigo-500`}>Menu</span>
+                        Main<span css={tw`text-red-500`}>Menu</span>
                     </div>
                     <button onClick={() => setIsOpen(false)} css={tw`text-gray-500 hover:text-white transition-colors`}>
                         <FontAwesomeIcon icon={faTimes} size="lg" />

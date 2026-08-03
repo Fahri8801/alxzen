@@ -21,6 +21,13 @@ interface Values {
     term: string;
 }
 
+const CustomInput = styled(Input)`
+    ${tw`rounded-none bg-black/40 border border-red-500/30 text-white focus:border-red-500 focus:ring-1 focus:ring-red-500/50 transition-all shadow-none`}
+    &:focus {
+        box-shadow: 0 0 15px rgba(229, 9, 20, 0.5);
+    }
+`;
+
 const ServerResult = styled(Link)`
     ${tw`flex items-center bg-black/40 p-4 rounded-none border-l-4 border-black/40 no-underline transition-all duration-150`};
 
@@ -74,7 +81,7 @@ export default ({ ...props }: Props) => {
     }, [props.visible]);
 
     // Formik does not support an innerRef on custom components.
-    const InputWithRef = (props: any) => <Input autoFocus {...props} ref={ref} />;
+    const InputWithRef = (props: any) => <CustomInput autoFocus {...props} ref={ref} />;
 
     return (
         <Formik

@@ -30,7 +30,7 @@ const TitleBox = styled.div`
 const Title = styled.h1`
     ${tw`text-5xl md:text-6xl font-black tracking-tighter text-white mb-2`}
     span {
-        ${tw`text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500`}
+        ${tw`text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-400 drop-shadow-md`}
     }
 `;
 
@@ -39,7 +39,7 @@ const SubTitle = styled.p`
 `;
 
 const FilterBar = styled.div`
-    ${tw`flex items-center gap-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-3`}
+    ${tw`flex items-center gap-4 bg-black/40 backdrop-blur-md border border-red-500/20 rounded-none px-6 py-3`}
 `;
 
 const Grid = styled.div`
