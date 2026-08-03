@@ -804,18 +804,38 @@ update_panel() {
     print_header
     echo -e "  ${YELLOW}${BOLD}🔄 UPDATE PANEL${NC}"
     echo ""
-    print_info "Updating Alxzen Panel..."
+    print_info "Updating Alxzen Panel to latest version..."
     
     cd "$PANEL_DIR"
     php artisan down
 
     # Download & extract latest release
-    curl -Lo /tmp/panel.tar.gz "$GITHUB_PANEL_DL" 2>/dev/null
+    print_step "Downloading latest panel release"
+    curl -Lo /tmp/panel.tar.gz "$GITHUB_PANEL_DL"
     tar -xzf /tmp/panel.tar.gz
     rm -f /tmp/panel.tar.gz
+    print_ok "Panel files extracted."
 
-    # Clear caches & set permissions
-    php artisan view:clear && php artisan config:clear
+    # Update Composer dependencies
+    print_step "Updating Composer dependencies"
+    COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_NO_AUDIT=1 php -d memory_limit=-1 /usr/local/bin/composer install --no-dev --optimize-autoloader --no-interaction --no-security-blocking
+    print_ok "Composer updated."
+
+    # Run database migrations
+    print_step "Running database migrations"
+    php artisan migrate --force --no-interaction
+    print_ok "Database migrated."
+
+    # Clear all caches
+    print_step "Clearing caches"
+    php artisan view:clear
+    php artisan config:clear
+    php artisan cache:clear
+    php artisan route:clear
+    php artisan optimize
+    print_ok "Caches cleared and optimized."
+
+    # Fix permissions
     chown -R www-data:www-data "$PANEL_DIR"/*
     chown -R www-data:www-data "$PANEL_DIR"/.[!.]*
 
@@ -823,8 +843,9 @@ update_panel() {
     php artisan up
     
     echo ""
-    print_ok "${GREEN}${BOLD}Panel updated successfully.${NC}"
+    print_ok "${GREEN}${BOLD}Panel updated successfully to latest version!${NC}"
 }
+
 
 
 install_panel() {
