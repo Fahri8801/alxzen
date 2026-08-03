@@ -17,31 +17,15 @@ import AnnounceBar from '@/components/elements/AnnounceBar';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const dashboardStyles = `
-@keyframes dash-bg-pan {
-    0%   { background-position: 0 0; }
-    100% { background-position: 0 100px; }
-}
 @keyframes dash-title-in {
-    from { opacity: 0; transform: translateX(-20px); }
+    from { opacity: 0; transform: translateX(-16px); }
     to   { opacity: 1; transform: translateX(0); }
-}
-@keyframes dash-subtitle-in {
-    from { opacity: 0; transform: translateX(-12px); }
-    to   { opacity: 0.7; transform: translateX(0); }
 }
 @keyframes dash-line-expand {
     from { width: 0; }
-    to   { width: 80px; }
+    to   { width: 60px; }
 }
-@keyframes dash-filter-in {
-    from { opacity: 0; transform: translateY(-8px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes dash-empty-pulse {
-    0%, 100% { opacity: 0.4; }
-    50%       { opacity: 0.8; }
-}
-@keyframes dash-skeleton-shimmer {
+@keyframes dash-skeleton {
     0%   { background-position: -400px 0; }
     100% { background-position: 400px 0; }
 }
@@ -61,18 +45,18 @@ const TitleBox = styled.div`
 `;
 
 const AccentLine = styled.div`
-    height: 3px;
-    background: linear-gradient(90deg, #e50914, transparent);
-    border-radius: 0;
-    margin-bottom: 16px;
-    animation: dash-line-expand 0.6s ease both 0.2s;
+    height: 2px;
+    width: 60px;
+    background: linear-gradient(90deg, #7c3aed, transparent);
+    margin-bottom: 14px;
+    animation: dash-line-expand 0.5s ease both 0.1s;
 `;
 
 const Title = styled.h1`
     ${tw`text-5xl md:text-6xl font-black tracking-tighter text-white mb-1`}
     letter-spacing: -2px;
     span {
-        background: linear-gradient(90deg, #e50914, #ff4444);
+        background: linear-gradient(90deg, #a78bfa, #7c3aed);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -80,24 +64,21 @@ const Title = styled.h1`
 `;
 
 const SubTitle = styled.p`
-    ${tw`text-base font-medium`}
-    color: rgba(148,163,184,0.7);
-    letter-spacing: 0.5px;
-    animation: dash-subtitle-in 0.5s ease both 0.15s;
-    margin: 0;
+    ${tw`text-base font-medium m-0`}
+    color: rgba(148,163,184,0.6);
+    letter-spacing: 0.3px;
 `;
 
 const FilterBar = styled(motion.div)`
     ${tw`flex items-center gap-4 px-5 py-3`}
-    background: rgba(0,0,0,0.5);
-    border: 1px solid rgba(229,9,20,0.2);
+    background: rgba(124,58,237,0.06);
+    border: 1px solid rgba(124,58,237,0.18);
     backdrop-filter: blur(8px);
-    animation: dash-filter-in 0.4s ease both 0.2s;
 `;
 
 const FilterLabel = styled.span`
     ${tw`text-[11px] font-bold uppercase tracking-widest`}
-    color: #e50914;
+    color: #7c3aed;
 `;
 
 const Grid = styled.div`
@@ -105,18 +86,18 @@ const Grid = styled.div`
 `;
 
 const SkeletonCard = styled.div`
-    height: 180px;
-    background: linear-gradient(90deg, #111 25%, #1a1a1a 50%, #111 75%);
+    height: 170px;
+    background: linear-gradient(90deg, #0d0c14 25%, #13111f 50%, #0d0c14 75%);
     background-size: 400px 100%;
-    animation: dash-skeleton-shimmer 1.4s infinite linear;
-    border: 1px solid rgba(255,255,255,0.04);
-    border-left: 3px solid rgba(229,9,20,0.2);
+    animation: dash-skeleton 1.4s infinite linear;
+    border: 1px solid rgba(124,58,237,0.08);
+    border-left: 2px solid rgba(124,58,237,0.15);
 `;
 
 const EmptyState = styled(motion.div)`
     ${tw`col-span-2 flex flex-col items-center justify-center py-24 text-center gap-3`}
-    border: 1px dashed rgba(229,9,20,0.15);
-    background: rgba(229,9,20,0.02);
+    border: 1px dashed rgba(124,58,237,0.15);
+    background: rgba(124,58,237,0.02);
 `;
 
 export default () => {
@@ -204,10 +185,10 @@ export default () => {
                                         transition={{ duration: 0.4 }}
                                     >
                                         <span style={{ fontSize: 36, opacity: 0.15 }}>◻</span>
-                                        <p style={{ color: '#374151', fontWeight: 700, fontSize: 14, letterSpacing: 1, textTransform: 'uppercase', margin: 0 }}>
-                                            No Servers Found
+                                        <p style={{ color: '#2d2540', fontWeight: 700, fontSize: 13, letterSpacing: 1, textTransform: 'uppercase', margin: 0 }}>
+                                            No Servers
                                         </p>
-                                        <p style={{ color: '#1f2937', fontSize: 12, margin: 0 }}>
+                                        <p style={{ color: '#1e1b2e', fontSize: 12, margin: 0 }}>
                                             Create or assign a server to get started.
                                         </p>
                                     </EmptyState>

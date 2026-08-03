@@ -5,22 +5,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
     faBars, faTimes, faServer, faCogs, faUserCircle, faSignOutAlt, 
     faTerminal, faFolderOpen, faDatabase, faCalendarAlt, faUsers, 
-    faNetworkWired, faPlayCircle, faBoxOpen, faCloudDownloadAlt,
+    faNetworkWired, faBoxOpen, faCloudDownloadAlt,
     faKey, faHistory, faUnlockAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { useStoreState } from 'easy-peasy';
 import { ApplicationStore } from '@/state';
 import SearchContainer from '@/components/dashboard/search/SearchContainer';
-import tw, { styled, css } from 'twin.macro';
-import { faChevronDown, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import tw, { styled } from 'twin.macro';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import http from '@/api/http';
 import SpinnerOverlay from '@/components/elements/SpinnerOverlay';
 import Avatar from '@/components/Avatar';
 
+// ─── Design Tokens (all purple) ──────────────────────────────────────────────
+// Primary: #7c3aed (violet-700) → #a78bfa (violet-400) → #c4b5fd (violet-300)
+// BG Dark: #09090f (near black with violet tint)
+// Surface: rgba(124,58,237,0.06) border rgba(124,58,237,0.18)
+
 const NavContainer = styled.div`
-    ${tw`fixed top-0 left-0 right-0 z-50 border-b border-white/5 h-20`}
-    background-color: rgba(9, 9, 11, 0.85);
-    backdrop-filter: blur(16px);
+    ${tw`fixed top-0 left-0 right-0 z-50 h-20`}
+    background: rgba(9, 9, 15, 0.88);
+    border-bottom: 1px solid rgba(124, 58, 237, 0.15);
+    backdrop-filter: blur(20px);
     transition: all 0.3s ease;
 `;
 
@@ -39,112 +45,116 @@ const RightSection = styled.div`
 const Logo = styled(Link)`
     ${tw`text-xl md:text-2xl font-black tracking-tighter text-white no-underline block`}
     span {
-        ${tw`text-indigo-500`}
+        background: linear-gradient(90deg, #a78bfa, #7c3aed);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 `;
 
 const SidebarOverlay = styled.div<{ $open: boolean }>`
     ${tw`fixed inset-0 z-[60] transition-opacity duration-300`}
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
     opacity: ${props => props.$open ? 1 : 0};
     pointer-events: ${props => props.$open ? 'auto' : 'none'};
 `;
 
 const Sidebar = styled.div<{ $open: boolean }>`
-    ${tw`fixed top-0 left-0 bottom-0 w-[300px] border-r border-red-600/50 z-[70] flex flex-col backdrop-blur-2xl`}
-    background: linear-gradient(180deg, rgba(10, 10, 10, 0.95) 0%, rgba(5, 5, 5, 1) 100%);
-    box-shadow: ${props => props.$open ? '10px 0 30px rgba(229, 9, 20, 0.15)' : 'none'};
+    ${tw`fixed top-0 left-0 bottom-0 w-[300px] z-[70] flex flex-col`}
+    background: linear-gradient(180deg, #09090f 0%, #0c0b14 100%);
+    border-right: 1px solid rgba(124, 58, 237, 0.2);
+    box-shadow: ${props => props.$open ? '10px 0 40px rgba(124, 58, 237, 0.15)' : 'none'};
     transform: translateX(${props => props.$open ? '0%' : '-100%'});
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
 `;
 
 const SidebarHeader = styled.div`
-    ${tw`flex items-center justify-between p-6 border-b border-white/5`}
+    ${tw`flex items-center justify-between p-6`}
+    border-bottom: 1px solid rgba(124, 58, 237, 0.12);
 `;
 
 const SidebarContent = styled.div`
-    ${tw`flex-1 overflow-y-auto p-4 flex flex-col gap-1`}
+    ${tw`flex-1 overflow-y-auto p-4 flex flex-col gap-0.5`}
 `;
 
 const NavItem = styled(NavLink)`
-    ${tw`flex items-center gap-4 px-4 py-3 rounded-none text-gray-400 font-medium transition-all duration-200 border-l-2 border-transparent`}
-    
+    ${tw`flex items-center gap-3 px-4 py-2.5 text-sm text-gray-400 font-medium transition-all duration-200`}
+    border-left: 2px solid transparent;
+    border-radius: 0;
+
     &:hover {
-        ${tw`text-white`}
-        background-color: rgba(229, 9, 20, 0.1);
-        border-left-color: rgba(229, 9, 20, 0.5);
+        color: #c4b5fd;
+        background: rgba(124, 58, 237, 0.08);
+        border-left-color: rgba(124, 58, 237, 0.4);
     }
 
     &.active {
-        ${tw`text-red-500 border-red-600`}
-        background-color: rgba(229, 9, 20, 0.15);
-        box-shadow: inset 20px 0 20px -20px rgba(229, 9, 20, 0.5);
+        color: #a78bfa;
+        background: rgba(124, 58, 237, 0.12);
+        border-left-color: #7c3aed;
+        box-shadow: inset 20px 0 20px -20px rgba(124, 58, 237, 0.3);
     }
 `;
 
-const ServerSectionTitle = styled.button<{ $open: boolean }>`
-    ${tw`flex items-center justify-between w-full mt-6 mb-2 px-4 py-3 rounded-none transition-all duration-300 outline-none border-l-2`}
-    background-color: ${props => props.$open ? 'rgba(229, 9, 20, 0.1)' : 'rgba(255, 255, 255, 0.03)'};
-    border-color: ${props => props.$open ? 'rgba(229, 9, 20, 0.5)' : 'transparent'};
-    border-right: none;
-    border-top: none;
-    border-bottom: none;
-    
+const SectionTitle = styled.div`
+    ${tw`text-[10px] font-black uppercase tracking-widest mt-5 mb-2 px-4`}
+    color: rgba(124, 58, 237, 0.5);
+`;
+
+const ServerSectionButton = styled.button<{ $open: boolean }>`
+    ${tw`flex items-center justify-between w-full mt-4 mb-1 px-4 py-2.5 text-xs font-bold uppercase tracking-widest transition-all duration-200 outline-none`}
+    color: ${props => props.$open ? '#a78bfa' : '#6b7280'};
+    background: ${props => props.$open ? 'rgba(124,58,237,0.08)' : 'transparent'};
+    border: none;
+    border-left: 2px solid ${props => props.$open ? '#7c3aed' : 'transparent'};
+    border-radius: 0;
+
     &:hover {
-        background-color: ${props => props.$open ? 'rgba(229, 9, 20, 0.15)' : 'rgba(255, 255, 255, 0.05)'};
+        color: #a78bfa;
+        background: rgba(124, 58, 237, 0.06);
     }
 
-    > div {
-        ${tw`flex items-center gap-3`}
-    }
-
-    .title-text {
-        ${tw`text-xs font-bold uppercase tracking-wider transition-colors`}
-        color: ${props => props.$open ? '#f87171' : '#9ca3af'};
-    }
-
-    .icon {
-        ${tw`w-4 h-4 transition-transform duration-300`}
-        color: ${props => props.$open ? '#f87171' : '#6b7280'};
+    .chevron {
+        transition: transform 0.3s ease;
         transform: ${props => props.$open ? 'rotate(180deg)' : 'rotate(0deg)'};
     }
 `;
 
-const SubMenuContainer = styled.div<{ $open: boolean }>`
+const SubMenu = styled.div<{ $open: boolean }>`
     display: grid;
     grid-template-rows: ${props => props.$open ? '1fr' : '0fr'};
-    transition: grid-template-rows 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s ease-in-out;
+    transition: grid-template-rows 0.35s ease, opacity 0.35s ease;
     opacity: ${props => props.$open ? 1 : 0};
-    margin-top: ${props => props.$open ? '0.5rem' : '0'};
 
     > div {
         overflow: hidden;
-        ${tw`flex flex-col gap-1`}
-        padding-left: 0.5rem;
-        border-left: 2px solid rgba(255, 255, 255, 0.05);
+        padding-left: 0.75rem;
+        border-left: 1px solid rgba(124, 58, 237, 0.12);
         margin-left: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
     }
 `;
 
-const SimpleSectionTitle = styled.div`
-    ${tw`text-[10px] font-black text-gray-500 uppercase tracking-widest mt-6 mb-3 px-4`}
-`;
-
 const UserFooter = styled.div`
-    ${tw`p-5 border-t border-white/5 bg-black/20`}
+    ${tw`p-5`}
+    border-top: 1px solid rgba(124, 58, 237, 0.1);
+    background: rgba(124, 58, 237, 0.03);
 `;
 
 const MenuButton = styled.button`
-    ${tw`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-none text-white transition-all duration-300`}
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    ${tw`w-10 h-10 flex items-center justify-center text-gray-400 transition-all duration-200`}
+    background: rgba(124, 58, 237, 0.06);
+    border: 1px solid rgba(124, 58, 237, 0.12);
+    border-radius: 0;
 
     &:hover {
-        background-color: rgba(229, 9, 20, 0.2);
-        border-color: rgba(229, 9, 20, 0.5);
-        box-shadow: 0 0 15px rgba(229, 9, 20, 0.4);
-        transform: scale(1.05);
+        color: #a78bfa;
+        background: rgba(124, 58, 237, 0.15);
+        border-color: rgba(124, 58, 237, 0.4);
+        box-shadow: 0 0 16px rgba(124, 58, 237, 0.25);
     }
 `;
 
@@ -155,31 +165,27 @@ export default () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [isServerMenuOpen, setIsServerMenuOpen] = useState(true);
-    
+
     const match = useRouteMatch<{ id: string }>('/server/:id');
     const serverId = match?.params.id;
     const location = useLocation();
 
-    useEffect(() => {
-        setIsOpen(false);
-    }, [location.pathname]);
+    useEffect(() => { setIsOpen(false); }, [location.pathname]);
 
     const onTriggerLogout = () => {
         setIsLoggingOut(true);
-        http.post('/auth/logout').finally(() => {
-            window.location.href = '/';
-        });
+        http.post('/auth/logout').finally(() => { window.location.href = '/'; });
     };
 
     return (
         <>
             <SpinnerOverlay visible={isLoggingOut} />
-            
+
             <NavContainer>
                 <NavInner>
                     <LeftSection>
                         <MenuButton onClick={() => setIsOpen(true)}>
-                            <FontAwesomeIcon icon={faBars} size="lg" />
+                            <FontAwesomeIcon icon={faBars} />
                         </MenuButton>
                         <Logo to={'/'}>
                             {name.substring(0, 3)}<span>{name.substring(3)}</span>
@@ -188,7 +194,7 @@ export default () => {
 
                     <RightSection>
                         <SearchContainer />
-                        <div css={tw`w-10 h-10 rounded-none overflow-hidden border-2 border-white/10 shadow-lg`}>
+                        <div style={{ width: 40, height: 40, overflow: 'hidden', border: '1px solid rgba(124,58,237,0.25)', boxShadow: '0 0 12px rgba(124,58,237,0.15)' }}>
                             <Avatar.User />
                         </div>
                     </RightSection>
@@ -200,101 +206,91 @@ export default () => {
             <SidebarOverlay $open={isOpen} onClick={() => setIsOpen(false)} />
             <Sidebar $open={isOpen}>
                 <SidebarHeader>
-                    <div css={tw`text-xl font-black text-white tracking-tight`}>
-                        Main<span css={tw`text-red-500`}>Menu</span>
+                    <div style={{ fontSize: 18, fontWeight: 900, color: '#fff', letterSpacing: '-0.5px' }}>
+                        Main<span style={{ background: 'linear-gradient(90deg,#a78bfa,#7c3aed)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Menu</span>
                     </div>
-                    <button onClick={() => setIsOpen(false)} css={tw`text-gray-500 hover:text-white transition-colors`}>
-                        <FontAwesomeIcon icon={faTimes} size="lg" />
+                    <button onClick={() => setIsOpen(false)} style={{ color: '#4b5563', transition: 'color 0.2s' }}
+                        onMouseEnter={e => (e.currentTarget.style.color = '#a78bfa')}
+                        onMouseLeave={e => (e.currentTarget.style.color = '#4b5563')}
+                    >
+                        <FontAwesomeIcon icon={faTimes} />
                     </button>
                 </SidebarHeader>
 
                 <SidebarContent>
                     <NavItem to={'/'} exact>
-                        <FontAwesomeIcon icon={faServer} css={tw`w-5`} /> Dashboard
+                        <FontAwesomeIcon icon={faServer} style={{ width: 16 }} /> Dashboard
                     </NavItem>
 
-                    <SimpleSectionTitle>Account Settings</SimpleSectionTitle>
+                    <SectionTitle>Account</SectionTitle>
                     <NavItem to={'/account'} exact>
-                        <FontAwesomeIcon icon={faUserCircle} css={tw`w-5`} /> My Account
+                        <FontAwesomeIcon icon={faUserCircle} style={{ width: 16 }} /> My Account
                     </NavItem>
                     <NavItem to={'/account/api'}>
-                        <FontAwesomeIcon icon={faKey} css={tw`w-5`} /> API Credentials
+                        <FontAwesomeIcon icon={faKey} style={{ width: 16 }} /> API Keys
                     </NavItem>
                     <NavItem to={'/account/ssh'}>
-                        <FontAwesomeIcon icon={faUnlockAlt} css={tw`w-5`} /> SSH Keys
+                        <FontAwesomeIcon icon={faUnlockAlt} style={{ width: 16 }} /> SSH Keys
                     </NavItem>
                     <NavItem to={'/account/activity'}>
-                        <FontAwesomeIcon icon={faHistory} css={tw`w-5`} /> Account Activity
+                        <FontAwesomeIcon icon={faHistory} style={{ width: 16 }} /> Activity Log
                     </NavItem>
-                    
+
                     {serverId && (
                         <>
-                            <div css={tw`my-2`} />
-                            <ServerSectionTitle $open={isServerMenuOpen} onClick={() => setIsServerMenuOpen(!isServerMenuOpen)}>
+                            <ServerSectionButton $open={isServerMenuOpen} onClick={() => setIsServerMenuOpen(!isServerMenuOpen)}>
+                                <span>Server Console</span>
+                                <FontAwesomeIcon icon={faChevronDown} className="chevron" style={{ fontSize: 10 }} />
+                            </ServerSectionButton>
+
+                            <SubMenu $open={isServerMenuOpen}>
                                 <div>
-                                    <FontAwesomeIcon icon={faServer} css={tw`w-4 h-4`} className="icon" />
-                                    <span className="title-text">Management Console</span>
+                                    <NavItem to={`/server/${serverId}`} exact><FontAwesomeIcon icon={faTerminal} style={{ width: 15 }} /> Terminal</NavItem>
+                                    <NavItem to={`/server/${serverId}/files`}><FontAwesomeIcon icon={faFolderOpen} style={{ width: 15 }} /> Files</NavItem>
+                                    <NavItem to={`/server/${serverId}/databases`}><FontAwesomeIcon icon={faDatabase} style={{ width: 15 }} /> Databases</NavItem>
+                                    <NavItem to={`/server/${serverId}/schedules`}><FontAwesomeIcon icon={faCalendarAlt} style={{ width: 15 }} /> Schedules</NavItem>
+                                    <NavItem to={`/server/${serverId}/users`}><FontAwesomeIcon icon={faUsers} style={{ width: 15 }} /> Users</NavItem>
+                                    <NavItem to={`/server/${serverId}/backups`}><FontAwesomeIcon icon={faCloudDownloadAlt} style={{ width: 15 }} /> Backups</NavItem>
+                                    <NavItem to={`/server/${serverId}/network`}><FontAwesomeIcon icon={faNetworkWired} style={{ width: 15 }} /> Network</NavItem>
+                                    <NavItem to={`/server/${serverId}/startup`}><FontAwesomeIcon icon={faBoxOpen} style={{ width: 15 }} /> Startup</NavItem>
+                                    <NavItem to={`/server/${serverId}/activity`}><FontAwesomeIcon icon={faHistory} style={{ width: 15 }} /> Activity</NavItem>
+                                    <NavItem to={`/server/${serverId}/settings`}><FontAwesomeIcon icon={faCogs} style={{ width: 15 }} /> Settings</NavItem>
                                 </div>
-                                <FontAwesomeIcon icon={faChevronDown} className="icon" />
-                            </ServerSectionTitle>
-                            
-                            <SubMenuContainer $open={isServerMenuOpen}>
-                                <div>
-                                    <NavItem to={`/server/${serverId}`} exact>
-                                        <FontAwesomeIcon icon={faTerminal} css={tw`w-5`} /> Terminal
-                                    </NavItem>
-                                    <NavItem to={`/server/${serverId}/files`}>
-                                        <FontAwesomeIcon icon={faFolderOpen} css={tw`w-5`} /> File Manager
-                                    </NavItem>
-                                    <NavItem to={`/server/${serverId}/databases`}>
-                                        <FontAwesomeIcon icon={faDatabase} css={tw`w-5`} /> Databases
-                                    </NavItem>
-                                    <NavItem to={`/server/${serverId}/schedules`}>
-                                        <FontAwesomeIcon icon={faCalendarAlt} css={tw`w-5`} /> Schedules
-                                    </NavItem>
-                                    <NavItem to={`/server/${serverId}/users`}>
-                                        <FontAwesomeIcon icon={faUsers} css={tw`w-5`} /> Users
-                                    </NavItem>
-                                    <NavItem to={`/server/${serverId}/backups`}>
-                                        <FontAwesomeIcon icon={faCloudDownloadAlt} css={tw`w-5`} /> Backups
-                                    </NavItem>
-                                    <NavItem to={`/server/${serverId}/network`}>
-                                        <FontAwesomeIcon icon={faNetworkWired} css={tw`w-5`} /> Network
-                                    </NavItem>
-                                    <NavItem to={`/server/${serverId}/startup`}>
-                                        <FontAwesomeIcon icon={faBoxOpen} css={tw`w-5`} /> Startup
-                                    </NavItem>
-                                    <NavItem to={`/server/${serverId}/activity`}>
-                                        <FontAwesomeIcon icon={faHistory} css={tw`w-5`} /> Server Activity
-                                    </NavItem>
-                                    <NavItem to={`/server/${serverId}/settings`}>
-                                        <FontAwesomeIcon icon={faCogs} css={tw`w-5`} /> Settings
-                                    </NavItem>
-                                </div>
-                            </SubMenuContainer>
+                            </SubMenu>
                         </>
                     )}
 
                     {rootAdmin && (
                         <>
-                            <div css={tw`my-2 border-t border-white/5`} />
-                            <a href={'/admin'} css={tw`flex items-center gap-4 px-4 py-3 rounded-none text-red-400 font-bold hover:bg-red-500/10 transition-all mt-2`}>
-                                <FontAwesomeIcon icon={faCogs} css={tw`w-5`} /> Admin Area
+                            <div style={{ margin: '8px 0', borderTop: '1px solid rgba(124,58,237,0.1)' }} />
+                            <a href={'/admin'} style={{
+                                display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px',
+                                color: '#a78bfa', fontWeight: 700, fontSize: 13, textDecoration: 'none',
+                                borderLeft: '2px solid rgba(124,58,237,0.4)',
+                                background: 'rgba(124,58,237,0.06)',
+                                transition: 'all 0.2s'
+                            }}>
+                                <FontAwesomeIcon icon={faCogs} style={{ width: 15 }} /> Admin Panel
                             </a>
                         </>
                     )}
                 </SidebarContent>
 
                 <UserFooter>
-                    <div css={tw`flex items-center gap-4`}>
-                        <div css={tw`w-10 h-10 rounded-none overflow-hidden shadow-lg`}>
+                    <div css={tw`flex items-center gap-3`}>
+                        <div style={{ width: 36, height: 36, overflow: 'hidden', border: '1px solid rgba(124,58,237,0.3)', flexShrink: 0 }}>
                             <Avatar.User />
                         </div>
                         <div css={tw`flex-1 min-w-0`}>
-                            <div css={tw`text-sm font-bold text-white truncate`}>{user.username}</div>
-                            <div css={tw`text-[10px] text-indigo-300 truncate uppercase tracking-wider`}>Verified User</div>
+                            <div style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>{user.username}</div>
+                            <div style={{ fontSize: 10, color: '#6d28d9', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                                {user.rootAdmin ? 'Administrator' : 'User'}
+                            </div>
                         </div>
-                        <button onClick={onTriggerLogout} css={tw`text-white/30 hover:text-red-400 transition-colors`}>
+                        <button onClick={onTriggerLogout} style={{ color: '#374151', transition: 'color 0.2s' }}
+                            onMouseEnter={e => (e.currentTarget.style.color = '#a78bfa')}
+                            onMouseLeave={e => (e.currentTarget.style.color = '#374151')}
+                        >
                             <FontAwesomeIcon icon={faSignOutAlt} />
                         </button>
                     </div>

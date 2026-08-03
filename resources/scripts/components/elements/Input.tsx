@@ -40,12 +40,20 @@ const inputStyle = css<Props>`
     // Reset to normal styling.
     resize: none;
     ${tw`appearance-none outline-none w-full min-w-0`};
-    ${tw`p-3 border-2 rounded text-sm transition-all duration-150`};
-    ${tw`bg-neutral-600 border-neutral-500 hover:border-neutral-400 text-neutral-200 shadow-none focus:ring-0`};
+    ${tw`p-3 border-2 text-sm transition-all duration-150`};
+    border-radius: 0;
+    background: rgba(0, 0, 0, 0.5);
+    border-color: rgba(229, 9, 20, 0.2);
+    color: #cbd5e1;
+    box-shadow: none;
+
+    &::placeholder {
+        color: #374151;
+    }
 
     & + .input-help {
         ${tw`mt-1 text-xs`};
-        ${(props) => (props.hasError ? tw`text-red-200` : tw`text-neutral-200`)};
+        color: ${(props: Props) => props.hasError ? '#fca5a5' : '#4b5563'};
     }
 
     &:required,
@@ -54,16 +62,19 @@ const inputStyle = css<Props>`
     }
 
     &:not(:disabled):not(:read-only):focus {
-        ${tw`shadow-md border-primary-300 ring-2 ring-primary-400 ring-opacity-50`};
-        ${(props) => props.hasError && tw`border-red-300 ring-red-200`};
+        outline: none;
+        border-color: rgba(124, 58, 237, 0.6);
+        box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12), 0 0 14px rgba(124, 58, 237, 0.15);
+        background: rgba(124, 58, 237, 0.04);
+        ${(props: Props) => props.hasError && tw`border-red-400`};
     }
 
     &:disabled {
-        ${tw`opacity-75`};
+        ${tw`opacity-50`};
     }
 
-    ${(props) => props.isLight && light};
-    ${(props) => props.hasError && tw`text-red-100 border-red-400 hover:border-red-300`};
+    ${(props: Props) => props.isLight && light};
+    ${(props: Props) => props.hasError && `border-color: rgba(239,68,68,0.6); color: #fca5a5;`};
 `;
 
 const Input = styled.input<Props>`

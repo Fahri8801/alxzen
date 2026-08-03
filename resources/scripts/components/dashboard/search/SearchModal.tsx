@@ -22,17 +22,25 @@ interface Values {
 }
 
 const CustomInput = styled(Input)`
-    ${tw`rounded-none bg-black/40 border border-red-500/30 text-white focus:border-red-500 focus:ring-1 focus:ring-red-500/50 transition-all shadow-none`}
+    ${tw`rounded-none text-white transition-all shadow-none`}
+    background: rgba(0,0,0,0.4) !important;
+    border: 1px solid rgba(124,58,237,0.2) !important;
     &:focus {
-        box-shadow: 0 0 15px rgba(229, 9, 20, 0.5);
+        border-color: rgba(124,58,237,0.6) !important;
+        box-shadow: 0 0 0 3px rgba(124,58,237,0.12), 0 0 16px rgba(124,58,237,0.15) !important;
+        background: rgba(124,58,237,0.04) !important;
     }
 `;
 
 const ServerResult = styled(Link)`
-    ${tw`flex items-center bg-black/40 p-4 rounded-none border-l-4 border-black/40 no-underline transition-all duration-150`};
+    ${tw`flex items-center p-4 no-underline transition-all duration-150`}
+    background: rgba(124,58,237,0.05);
+    border-left: 2px solid rgba(124,58,237,0.15);
 
     &:hover {
-        ${tw`shadow-lg border-red-600 bg-red-900/10`};
+        background: rgba(124,58,237,0.1);
+        border-left-color: #7c3aed;
+        box-shadow: 0 0 20px rgba(124,58,237,0.12);
     }
 
     &:not(:last-of-type) {
@@ -114,8 +122,8 @@ export default ({ ...props }: Props) => {
                                     onClick={() => props.onDismissed()}
                                 >
                                     <div css={tw`flex-1 mr-4`}>
-                                        <p css={tw`text-sm`}>{server.name}</p>
-                                        <p css={tw`mt-1 text-xs text-neutral-400`}>
+                                        <p style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0', margin: 0 }}>{server.name}</p>
+                                        <p style={{ marginTop: 4, fontSize: 11, color: '#4b5563', fontFamily: 'monospace', margin: '4px 0 0' }}>
                                             {server.allocations
                                                 .filter((alloc) => alloc.isDefault)
                                                 .map((allocation) => (
@@ -126,7 +134,7 @@ export default ({ ...props }: Props) => {
                                         </p>
                                     </div>
                                     <div css={tw`flex-none text-right`}>
-                                        <span css={tw`text-xs py-1 px-2 bg-red-900/40 text-red-400 border border-red-500/30 rounded-none`}>
+                                        <span style={{ fontSize: 10, padding: '2px 8px', background: 'rgba(124,58,237,0.12)', color: '#a78bfa', border: '1px solid rgba(124,58,237,0.25)', fontWeight: 700, letterSpacing: '0.5px' }}>
                                             {server.node}
                                         </span>
                                     </div>
