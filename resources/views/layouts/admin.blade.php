@@ -65,7 +65,7 @@
             .box {
                 background: linear-gradient(160deg, #0d0c14 0%, #09090f 100%) !important;
                 border: 1px solid rgba(124, 58, 237, 0.2) !important;
-                border-radius: 12px !important;
+                border-radius: 0 !important;
                 box-shadow: 0 4px 24px rgba(0,0,0,0.4) !important;
                 color: #ffffff !important;
                 overflow: hidden !important;
@@ -94,7 +94,7 @@
             .form-control {
                 background: rgba(9, 9, 15, 0.6) !important;
                 border: 1px solid rgba(124, 58, 237, 0.3) !important;
-                border-radius: 8px !important;
+                border-radius: 0 !important;
                 color: #cbd5e1 !important;
                 transition: all 0.2s;
                 box-shadow: inset 0 1px 2px rgba(0,0,0,0.1) !important;
@@ -114,7 +114,7 @@
                 background: rgba(124, 58, 237, 0.1) !important;
                 border: 1px solid rgba(124, 58, 237, 0.3) !important;
                 color: #a78bfa !important;
-                border-radius: 8px 0 0 8px !important;
+                border-radius: 0 0 0 8px !important;
             }
             label { color: #94a3b8 !important; font-weight: 600 !important; font-size: 13px !important; }
 
@@ -143,7 +143,7 @@
             /* 8. Tombol & Badge (Neon & Gradient) */
             .btn {
                 font-weight: 600 !important;
-                border-radius: 6px !important;
+                border-radius: 0 !important;
                 font-size: 12px !important;
                 text-transform: uppercase !important;
                 letter-spacing: 0.5px !important;

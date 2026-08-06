@@ -22,7 +22,7 @@
     margin-bottom: 20px;
     background: rgba(15,23,42,0.6);
     border: 1px solid rgba(99,102,241,0.2);
-    border-radius: 10px;
+    border-radius: 0;
     padding: 6px;
     overflow-x: auto;
     white-space: nowrap;
@@ -30,7 +30,7 @@
 }
 .alx-tab {
     padding: 8px 18px;
-    border-radius: 7px;
+    border-radius: 0;
     font-size: 13px;
     font-weight: 500;
     color: #64748b;
@@ -50,7 +50,7 @@
 .alx-card {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
     border: 1px solid rgba(99,102,241,0.2);
-    border-radius: 12px;
+    border-radius: 0;
     box-shadow: 0 4px 24px rgba(0,0,0,0.4);
     overflow: hidden;
     margin-bottom: 20px;
@@ -85,7 +85,7 @@
 .alx-resource-card {
     background: rgba(15,23,42,0.6);
     border: 1px solid rgba(99,102,241,0.15);
-    border-radius: 10px;
+    border-radius: 0;
     padding: 18px;
     position: relative;
     overflow: hidden;
@@ -95,7 +95,7 @@
 .alx-resource-card::before {
     content: '';
     position: absolute; top:0; left:0; right:0; height:2px;
-    border-radius: 10px 10px 0 0;
+    border-radius: 0 10px 0 0;
 }
 .alx-res-disk::before { background: linear-gradient(90deg, #6366f1, #8b5cf6); }
 .alx-res-memory::before { background: linear-gradient(90deg, #06b6d4, #3b82f6); }
@@ -103,7 +103,7 @@
 .alx-res-maint::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
 
 .alx-resource-icon {
-    width: 38px; height: 38px; border-radius: 10px;
+    width: 38px; height: 38px; border-radius: 0;
     display: flex; align-items: center; justify-content: center;
     font-size: 16px; margin-bottom: 12px;
 }
@@ -146,7 +146,7 @@
 .alx-danger-card {
     background: rgba(239,68,68,0.04);
     border: 1px solid rgba(239,68,68,0.2);
-    border-radius: 12px;
+    border-radius: 0;
     overflow: hidden;
     margin-bottom: 20px;
 }
@@ -161,7 +161,7 @@
 .alx-danger-footer { padding: 12px 22px; border-top: 1px solid rgba(239,68,68,0.1); display: flex; justify-content: flex-end; }
 .alx-btn-danger {
     display: inline-flex; align-items: center; gap: 6px;
-    padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 500;
+    padding: 8px 16px; border-radius: 0; font-size: 12px; font-weight: 500;
     background: rgba(239,68,68,0.15); color: #f87171;
     border: 1px solid rgba(239,68,68,0.3); cursor: pointer;
     transition: all 0.2s; text-decoration: none;
@@ -173,7 +173,7 @@
 .alx-desc-card {
     background: rgba(15,23,42,0.4);
     border: 1px solid rgba(99,102,241,0.1);
-    border-radius: 12px; padding: 18px 22px;
+    border-radius: 0; padding: 18px 22px;
     margin-bottom: 20px;
 }
 .alx-desc-card pre { color: #94a3b8; font-size: 13px; margin: 0; white-space: pre-wrap; }
@@ -240,7 +240,7 @@
                 </div>
 
                 {{-- Status Widget --}}
-                <div style="margin-top: 40px; padding: 20px; background: rgba(15,23,42,0.6); border: 1px solid rgba(99,102,241,0.2); border-radius: 12px; text-align: center;">
+                <div style="margin-top: 40px; padding: 20px; background: rgba(15,23,42,0.6); border: 1px solid rgba(99,102,241,0.2); border-radius: 0; text-align: center;">
                     <h4 style="margin: 0; color: #94a3b8; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Remaining Physical Disk Space</h4>
                     <div id="diskRemaining" style="font-size: 28px; font-weight: 700; color: #4ade80; margin-top: 8px;">-- GiB</div>
                     <div style="font-size: 12px; color: #64748b; margin-top: 5px;">(Total Node Capacity minus Real-Time Active Usage)</div>
