@@ -22,7 +22,7 @@
             }
             .sidebar-menu > li.header {
                 background: #000000 !important;
-                color: #8e44ad !important; /* Ungu Header */
+                color: #7c3aed !important; /* Ungu Header */
                 font-weight: 800 !important;
                 letter-spacing: 1px;
             }
@@ -34,15 +34,15 @@
                 transition: all 0.3s ease;
             }
             .sidebar-menu > li:hover > a, .sidebar-menu > li.active > a {
-                background: #1a1a20 !important;
-                color: #a29bfe !important; /* Ungu Muda */
-                border-left-color: #6c5ce7 !important; /* Garis Ungu di samping */
+                background: #0d0c14 !important;
+                color: #c4b5fd !important; /* Ungu Muda */
+                border-left-color: #7c3aed !important; /* Garis Ungu di samping */
             }
 
             /* 3. Navbar Atas & Logo */
             .main-header .logo {
                 background-color: #000000 !important;
-                color: #a29bfe !important;
+                color: #a78bfa !important;
                 font-weight: 800 !important;
                 border-bottom: 1px solid #1a1a20;
             }
@@ -61,10 +61,10 @@
                 text-shadow: 0 0 10px rgba(162, 155, 254, 0.2);
             }
 
-            /* 5. Box / Panel (Modern Dark KDE Plasma) */
+            /* 5. Box / Panel (Modern Dark) */
             .box {
-                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%) !important;
-                border: 1px solid rgba(99, 102, 241, 0.2) !important;
+                background: linear-gradient(160deg, #0d0c14 0%, #09090f 100%) !important;
+                border: 1px solid rgba(124, 58, 237, 0.2) !important;
                 border-radius: 12px !important;
                 box-shadow: 0 4px 24px rgba(0,0,0,0.4) !important;
                 color: #ffffff !important;
@@ -74,8 +74,8 @@
             .box-header {
                 color: #ffffff !important;
                 padding: 18px 24px !important;
-                border-bottom: 1px solid rgba(99, 102, 241, 0.15) !important;
-                background: rgba(99, 102, 241, 0.05) !important;
+                border-bottom: 1px solid rgba(124, 58, 237, 0.15) !important;
+                background: rgba(124, 58, 237, 0.05) !important;
             }
             .box-title {
                 font-size: 15px !important;
@@ -85,24 +85,24 @@
             }
             .box-body { padding: 20px !important; }
             .box-footer {
-                background: rgba(15, 23, 42, 0.6) !important;
-                border-top: 1px solid rgba(99,102,241,0.2) !important;
+                background: rgba(9, 9, 15, 0.6) !important;
+                border-top: 1px solid rgba(124, 58, 237, 0.2) !important;
                 padding: 15px 20px !important;
             }
 
             /* 6. Forms & Inputs (Glassmorphism) */
             .form-control {
-                background: rgba(15, 23, 42, 0.6) !important;
-                border: 1px solid rgba(99,102,241,0.3) !important;
+                background: rgba(9, 9, 15, 0.6) !important;
+                border: 1px solid rgba(124, 58, 237, 0.3) !important;
                 border-radius: 8px !important;
                 color: #cbd5e1 !important;
                 transition: all 0.2s;
                 box-shadow: inset 0 1px 2px rgba(0,0,0,0.1) !important;
             }
             .form-control:focus {
-                border-color: #818cf8 !important;
-                box-shadow: 0 0 0 3px rgba(129,140,248,0.15) !important;
-                background: rgba(15, 23, 42, 0.8) !important;
+                border-color: #a78bfa !important;
+                box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15) !important;
+                background: rgba(9, 9, 15, 0.8) !important;
                 outline: none;
             }
             .form-control[disabled], .form-control[readonly] {
@@ -111,9 +111,9 @@
                 cursor: not-allowed;
             }
             .input-group-addon {
-                background: rgba(99,102,241,0.1) !important;
-                border: 1px solid rgba(99,102,241,0.3) !important;
-                color: #818cf8 !important;
+                background: rgba(124, 58, 237, 0.1) !important;
+                border: 1px solid rgba(124, 58, 237, 0.3) !important;
+                color: #a78bfa !important;
                 border-radius: 8px 0 0 8px !important;
             }
             label { color: #94a3b8 !important; font-weight: 600 !important; font-size: 13px !important; }
@@ -121,8 +121,8 @@
             /* 7. Tables (Modern Dark) */
             .table { border-collapse: collapse !important; width: 100% !important; margin-bottom: 0 !important; }
             .table > thead > tr > th {
-                background: rgba(15, 23, 42, 0.6) !important;
-                border-bottom: 1px solid rgba(99,102,241,0.2) !important;
+                background: rgba(9, 9, 15, 0.6) !important;
+                border-bottom: 1px solid rgba(124, 58, 237, 0.2) !important;
                 padding: 12px 20px !important;
                 font-size: 11px !important;
                 font-weight: 600 !important;
@@ -138,7 +138,7 @@
                 color: #cbd5e1 !important;
                 vertical-align: middle !important;
             }
-            .table-hover > tbody > tr:hover { background: rgba(99,102,241,0.06) !important; }
+            .table-hover > tbody > tr:hover { background: rgba(124, 58, 237, 0.06) !important; }
 
             /* 8. Tombol & Badge (Neon & Gradient) */
             .btn {
@@ -152,13 +152,15 @@
                 padding: 8px 16px !important;
             }
             .btn-primary {
-                background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
-                color: #fff !important;
-                box-shadow: 0 2px 10px rgba(99,102,241,0.3) !important;
+                background: linear-gradient(135deg, #7c3aed, #6d28d9) !important;
+                border: none !important;
+                box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3) !important;
+                color: #ffffff !important;
             }
             .btn-primary:hover {
-                transform: translateY(-1px) !important;
-                box-shadow: 0 4px 15px rgba(99,102,241,0.5) !important;
+                background: linear-gradient(135deg, #8b5cf6, #7c3aed) !important;
+                box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5) !important;
+                transform: translateY(-1px);
             }
             .btn-success {
                 background: linear-gradient(135deg, #10b981, #059669) !important;

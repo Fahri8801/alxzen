@@ -24,8 +24,8 @@
     to   { opacity: 1; transform: translateX(0); }
 }
 @keyframes alx-admin-border-pulse {
-    0%,100% { border-left-color: rgba(229,9,20,0.4); }
-    50%      { border-left-color: rgba(229,9,20,0.9); }
+    0%,100% { border-left-color: rgba(124,58,237,0.4); }
+    50%      { border-left-color: rgba(124,58,237,0.9); }
 }
 @keyframes alx-admin-shimmer {
     0%   { background-position: -300% center; }
@@ -37,14 +37,14 @@
 }
 @keyframes alx-search-focus-glow {
     from { box-shadow: none; }
-    to   { box-shadow: 0 0 0 3px rgba(229,9,20,0.15); }
+    to   { box-shadow: 0 0 0 3px rgba(124,58,237,0.15); }
 }
 
 /* Main Card */
 .alx-admin-card {
-    background: linear-gradient(160deg, #111111 0%, #0b0b0b 60%, #0d0808 100%);
-    border: 1px solid rgba(229,9,20,0.12);
-    border-left: 3px solid #e50914;
+    background: linear-gradient(160deg, #0d0c14 0%, #09090f 100% 100%);
+    border: 1px solid rgba(124,58,237,0.12);
+    border-left: 3px solid #7c3aed;
     border-radius: 0;
     overflow: hidden;
     animation: alx-admin-card-in 0.5s ease both, alx-admin-border-pulse 4s ease-in-out infinite;
@@ -70,8 +70,8 @@
     flex-wrap: wrap;
     gap: 12px;
     padding: 18px 24px;
-    border-bottom: 1px solid rgba(229,9,20,0.1);
-    background: rgba(229,9,20,0.04);
+    border-bottom: 1px solid rgba(124,58,237,0.1);
+    background: rgba(124,58,237,0.04);
 }
 .alx-admin-title {
     display: flex;
@@ -84,11 +84,11 @@
     text-transform: uppercase;
     margin: 0;
 }
-.alx-admin-title i { color: #e50914; font-size: 15px; }
+.alx-admin-title i { color: #7c3aed; font-size: 15px; }
 .alx-admin-count {
-    background: rgba(229,9,20,0.12);
-    border: 1px solid rgba(229,9,20,0.25);
-    color: #fca5a5;
+    background: rgba(124,58,237,0.12);
+    border: 1px solid rgba(124,58,237,0.25);
+    color: #c4b5fd;
     font-size: 10px;
     font-weight: 700;
     padding: 2px 8px;
@@ -99,7 +99,7 @@
 .alx-admin-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .alx-admin-input {
     background: rgba(0,0,0,0.6) !important;
-    border: 1px solid rgba(229,9,20,0.2) !important;
+    border: 1px solid rgba(124,58,237,0.2) !important;
     border-radius: 0 !important;
     color: #cbd5e1 !important;
     font-size: 12px;
@@ -110,8 +110,8 @@
     font-family: 'JetBrains Mono', monospace;
 }
 .alx-admin-input:focus {
-    border-color: rgba(229,9,20,0.5) !important;
-    box-shadow: 0 0 0 3px rgba(229,9,20,0.1) !important;
+    border-color: rgba(124,58,237,0.5) !important;
+    box-shadow: 0 0 0 3px rgba(124,58,237,0.1) !important;
     outline: none;
 }
 .alx-admin-input::placeholder { color: #374151; }
@@ -142,22 +142,22 @@
     animation: alx-admin-shimmer 3s infinite;
 }
 .alx-admin-btn-search {
-    background: rgba(229,9,20,0.1);
-    color: #f87171;
-    border: 1px solid rgba(229,9,20,0.2);
+    background: rgba(124,58,237,0.1);
+    color: #a78bfa;
+    border: 1px solid rgba(124,58,237,0.2);
 }
 .alx-admin-btn-search:hover {
-    background: rgba(229,9,20,0.2);
-    color: #fca5a5;
-    border-color: rgba(229,9,20,0.4);
+    background: rgba(124,58,237,0.2);
+    color: #c4b5fd;
+    border-color: rgba(124,58,237,0.4);
 }
 .alx-admin-btn-create {
-    background: linear-gradient(135deg, #e50914, #b91c1c);
+    background: linear-gradient(135deg, #7c3aed, #5b21b6);
     color: #fff;
-    box-shadow: 0 4px 14px rgba(229,9,20,0.3);
+    box-shadow: 0 4px 14px rgba(124,58,237,0.3);
 }
 .alx-admin-btn-create:hover {
-    box-shadow: 0 6px 20px rgba(229,9,20,0.5);
+    box-shadow: 0 6px 20px rgba(124,58,237,0.5);
     color: #fff;
     transform: translateY(-1px);
 }
@@ -169,7 +169,7 @@
 }
 .alx-admin-table thead tr {
     background: rgba(0,0,0,0.3);
-    border-bottom: 1px solid rgba(229,9,20,0.1);
+    border-bottom: 1px solid rgba(124,58,237,0.1);
 }
 .alx-admin-table thead th {
     padding: 11px 20px;
@@ -196,7 +196,7 @@
 .alx-admin-table tbody tr:nth-child(10) { animation-delay: 0.40s; }
 .alx-admin-table tbody tr:last-child { border-bottom: none; }
 .alx-admin-table tbody tr:hover {
-    background: rgba(229,9,20,0.04);
+    background: rgba(124,58,237,0.04);
 }
 .alx-admin-table td {
     padding: 13px 20px;
@@ -209,15 +209,15 @@
     font-weight: 600;
 }
 .alx-admin-table td a {
-    color: #f87171;
+    color: #a78bfa;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.15s;
 }
-.alx-admin-table td a:hover { color: #fca5a5; text-decoration: underline; }
+.alx-admin-table td a:hover { color: #c4b5fd; text-decoration: underline; }
 .alx-admin-table td code {
     background: rgba(0,0,0,0.5);
-    border: 1px solid rgba(229,9,20,0.15);
+    border: 1px solid rgba(124,58,237,0.15);
     border-radius: 0;
     padding: 2px 7px;
     font-size: 10px;
@@ -249,9 +249,9 @@
     border: 1px solid rgba(34,197,94,0.25);
 }
 .alx-status-suspended {
-    background: rgba(229,9,20,0.1);
+    background: rgba(124,58,237,0.1);
     color: #f87171;
-    border: 1px solid rgba(229,9,20,0.25);
+    border: 1px solid rgba(124,58,237,0.25);
 }
 .alx-status-installing {
     background: rgba(234,179,8,0.1);
@@ -265,17 +265,17 @@
     align-items: center;
     justify-content: center;
     width: 28px; height: 28px;
-    background: rgba(229,9,20,0.08);
-    border: 1px solid rgba(229,9,20,0.2);
-    color: #f87171;
+    background: rgba(124,58,237,0.08);
+    border: 1px solid rgba(124,58,237,0.2);
+    color: #a78bfa;
     text-decoration: none;
     transition: all 0.2s;
     font-size: 11px;
 }
 .alx-action:hover {
-    background: rgba(229,9,20,0.2);
-    color: #fca5a5;
-    border-color: rgba(229,9,20,0.4);
+    background: rgba(124,58,237,0.2);
+    color: #c4b5fd;
+    border-color: rgba(124,58,237,0.4);
     transform: scale(1.1);
 }
 
@@ -284,22 +284,22 @@
     display: flex;
     justify-content: center;
     padding: 16px 24px;
-    border-top: 1px solid rgba(229,9,20,0.08);
+    border-top: 1px solid rgba(124,58,237,0.08);
     background: rgba(0,0,0,0.2);
 }
 .alx-admin-pager .pagination > li > a,
 .alx-admin-pager .pagination > li > span {
     background: rgba(0,0,0,0.5) !important;
-    border-color: rgba(229,9,20,0.2) !important;
-    color: #f87171 !important;
+    border-color: rgba(124,58,237,0.2) !important;
+    color: #a78bfa !important;
     border-radius: 0 !important;
     margin: 0 2px;
 }
 .alx-admin-pager .pagination > .active > a,
 .alx-admin-pager .pagination > .active > span {
-    background: rgba(229,9,20,0.2) !important;
-    border-color: rgba(229,9,20,0.5) !important;
-    color: #fca5a5 !important;
+    background: rgba(124,58,237,0.2) !important;
+    border-color: rgba(124,58,237,0.5) !important;
+    color: #c4b5fd !important;
 }
 
 /* Empty */
@@ -420,7 +420,7 @@
         // Subtle hover row highlight
         document.querySelectorAll('.alx-admin-table tbody tr').forEach(function(row) {
             row.addEventListener('mouseenter', function() {
-                this.style.borderLeft = '2px solid rgba(229,9,20,0.4)';
+                this.style.borderLeft = '2px solid rgba(124,58,237,0.4)';
             });
             row.addEventListener('mouseleave', function() {
                 this.style.borderLeft = '';

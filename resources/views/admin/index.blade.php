@@ -20,8 +20,8 @@
     to   { opacity: 1; transform: translateY(0); }
 }
 @keyframes alx-glow-pulse {
-    0%, 100% { box-shadow: 0 0 8px rgba(229,9,20,0.2); }
-    50%       { box-shadow: 0 0 24px rgba(229,9,20,0.6); }
+    0%, 100% { box-shadow: 0 0 8px rgba(124,58,237,0.2); }
+    50%       { box-shadow: 0 0 24px rgba(124,58,237,0.6); }
 }
 @keyframes alx-scanline {
     0%   { background-position: 0 0; }
@@ -36,14 +36,14 @@
     100% { background-position: 200% center; }
 }
 @keyframes alx-border-flow {
-    0%, 100% { border-color: rgba(229,9,20,0.15); }
-    50%       { border-color: rgba(229,9,20,0.5); }
+    0%, 100% { border-color: rgba(124,58,237,0.15); }
+    50%       { border-color: rgba(124,58,237,0.5); }
 }
 .alx-overview-card {
     background: linear-gradient(145deg, #141414 0%, #0c0c0c 100%);
-    border: 1px solid rgba(229,9,20,0.15);
+    border: 1px solid rgba(124,58,237,0.15);
     border-radius: 0;
-    border-left: 3px solid #e50914;
+    border-left: 3px solid #7c3aed;
     overflow: hidden;
     margin-bottom: 20px;
     animation: alx-fade-in-up 0.5s ease forwards, alx-border-flow 4s ease-in-out infinite;
@@ -71,8 +71,8 @@
     align-items: center;
     gap: 10px;
     padding: 14px 20px;
-    border-bottom: 1px solid rgba(229,9,20,0.1);
-    background: rgba(229,9,20,0.04);
+    border-bottom: 1px solid rgba(124,58,237,0.1);
+    background: rgba(124,58,237,0.04);
 }
 .alx-card-header-inner h3 {
     margin: 0;
@@ -83,7 +83,7 @@
     text-transform: uppercase;
 }
 .alx-card-header-inner h3 i {
-    color: #e50914;
+    color: #7c3aed;
     margin-right: 6px;
 }
 .alx-card-body { padding: 20px; }
@@ -94,8 +94,8 @@
     margin: 0 0 8px 0;
 }
 .alx-card-body code {
-    background: rgba(229,9,20,0.1);
-    border: 1px solid rgba(229,9,20,0.2);
+    background: rgba(124,58,237,0.1);
+    border: 1px solid rgba(124,58,237,0.2);
     border-radius: 3px;
     padding: 2px 7px;
     font-size: 11px;
@@ -104,8 +104,8 @@
 }
 .alx-card-body strong { color: #cbd5e1; }
 .alx-label-red {
-    background: rgba(229,9,20,0.15);
-    border: 1px solid rgba(229,9,20,0.4);
+    background: rgba(124,58,237,0.15);
+    border: 1px solid rgba(124,58,237,0.4);
     color: #fca5a5;
     border-radius: 0;
     padding: 2px 10px;
@@ -191,8 +191,8 @@
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    background: rgba(229,9,20,0.07);
-    border: 1px solid rgba(229,9,20,0.2);
+    background: rgba(124,58,237,0.07);
+    border: 1px solid rgba(124,58,237,0.2);
     border-radius: 0;
     padding: 3px 10px;
     font-size: 11px;

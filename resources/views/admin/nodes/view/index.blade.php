@@ -195,7 +195,7 @@
     <div class="col-xs-12">
         <div class="alx-card">
             <div class="alx-card-header">
-                <h3 class="alx-card-title"><i class="fa fa-pie-chart"></i> Real-Time Resource Allocation</h3>
+                <h3 class="alx-card-title"><i class="fa fa-pie-chart"></i> Node Resource Allocation</h3>
             </div>
             <div class="alx-card-body" style="padding: 30px 15px;">
                 <div style="display: flex; flex-wrap: nowrap; gap: 20px; overflow-x: auto; padding-bottom: 20px; -webkit-overflow-scrolling: touch;">
@@ -206,7 +206,7 @@
                             <canvas id="chartCpu"></canvas>
                             <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
                                 <div id="cpuActiveText" style="font-size: 24px; font-weight: 700; color: #fff;">--%</div>
-                                <div style="font-size: 11px; color: #94a3b8; text-transform: uppercase;">Active</div>
+                                <div style="font-size: 11px; color: #94a3b8; text-transform: uppercase;">Usage</div>
                             </div>
                         </div>
                         <p id="cpuSubText" style="margin-top: 15px; font-size: 13px; color: #94a3b8;">-- of -- Cores Allocated</p>
@@ -338,62 +338,7 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-xs-12">
-        <div class="alx-card">
-            <div class="alx-card-header">
-                <h3 class="alx-card-title"><i class="fa fa-pie-chart"></i> Real-Time Resource Allocation</h3>
-            </div>
-            <div class="alx-card-body" style="padding: 30px 15px;">
-                <div style="display: flex; flex-wrap: nowrap; gap: 20px; overflow-x: auto; padding-bottom: 20px; -webkit-overflow-scrolling: touch;">
-                    {{-- CPU Chart --}}
-                    <div style="flex: 0 0 auto; width: 30%; min-width: 250px; text-align: center; margin: 0 auto;">
-                        <h4 style="color: #e2e8f0; font-weight: 600; margin-bottom: 20px;">CPU Usage (%)</h4>
-                        <div style="position: relative; width: 200px; height: 200px; margin: 0 auto;">
-                            <canvas id="chartCpu"></canvas>
-                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-                                <div id="cpuActiveText" style="font-size: 24px; font-weight: 700; color: #fff;">--%</div>
-                                <div style="font-size: 11px; color: #94a3b8; text-transform: uppercase;">Active</div>
-                            </div>
-                        </div>
-                        <p id="cpuSubText" style="margin-top: 15px; font-size: 13px; color: #94a3b8;">-- of -- Cores Allocated</p>
-                    </div>
 
-                    {{-- Memory Chart --}}
-                    <div style="flex: 0 0 auto; width: 30%; min-width: 250px; text-align: center; margin: 0 auto;">
-                        <h4 style="color: #e2e8f0; font-weight: 600; margin-bottom: 20px;">Memory Usage (GiB)</h4>
-                        <div style="position: relative; width: 200px; height: 200px; margin: 0 auto;">
-                            <canvas id="chartMem"></canvas>
-                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-                                <div id="memActiveText" style="font-size: 20px; font-weight: 700; color: #fff;">-- GiB</div>
-                                <div style="font-size: 11px; color: #94a3b8; text-transform: uppercase;">Active</div>
-                            </div>
-                        </div>
-                        <p id="memSubText" style="margin-top: 15px; font-size: 13px; color: #94a3b8;">-- allocated of {{ number_format($node->memory / 1024, 1) }} GiB Total</p>
-                    </div>
-
-                    {{-- Disk Chart --}}
-                    <div style="flex: 0 0 auto; width: 30%; min-width: 250px; text-align: center; margin: 0 auto;">
-                        <h4 style="color: #e2e8f0; font-weight: 600; margin-bottom: 20px;">Disk Space Usage (GiB)</h4>
-                        <div style="position: relative; width: 200px; height: 200px; margin: 0 auto;">
-                            <canvas id="chartDisk"></canvas>
-                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-                                <div id="diskActiveText" style="font-size: 20px; font-weight: 700; color: #fff;">-- GiB</div>
-                                <div style="font-size: 11px; color: #94a3b8; text-transform: uppercase;">Active</div>
-                            </div>
-                        </div>
-                        <p id="diskSubText" style="margin-top: 15px; font-size: 13px; color: #94a3b8;">-- allocated of {{ number_format($node->disk / 1024, 1) }} GiB Total</p>
-                    </div>
-                </div>
-
-                {{-- Status Widget --}}
-                <div style="margin-top: 40px; padding: 20px; background: rgba(15,23,42,0.6); border: 1px solid rgba(99,102,241,0.2); border-radius: 12px; text-align: center;">
-                    <h4 style="margin: 0; color: #94a3b8; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Remaining Physical Disk Space</h4>
-                    <div id="diskRemaining" style="font-size: 28px; font-weight: 700; color: #4ade80; margin-top: 8px;">-- GiB</div>
-                    <div style="font-size: 12px; color: #64748b; margin-top: 5px;">(Total Node Capacity minus Real-Time Active Usage)</div>
-                </div>
-            </div>
-</div>
 @endsection
 
 @section('footer-scripts')
@@ -530,54 +475,36 @@
     const memAlloc = {{ $memAllocated }};
     const diskAlloc = {{ $diskAllocated }};
 
-    function fetchLiveUsage() {
-        $.ajax({
-            method: 'GET',
-            url: '/admin/nodes/view/{{ $node->id }}/live-usage',
-            timeout: 8000,
-        }).done(function (data) {
-            let activeCpu = data.active.cpu;
-            let activeMem = data.active.memory_bytes / 1024 / 1024 / 1024;
-            let activeDisk = data.active.disk_bytes / 1024 / 1024 / 1024;
+    function setStaticUsage() {
+        // Just show allocation stats instead of real-time usage (since endpoint is not present)
+        $('#cpuActiveText').text('N/A');
+        $('#cpuSubText').text('CPU limits are managed per-server');
 
-            // Optional: calculate CPU % relative to physical cores if known, otherwise just show absolute total
-            let cpuPercent = activeCpu;
-            if (window.nodePhysicalCores) {
-                cpuPercent = activeCpu / window.nodePhysicalCores;
-            }
+        $('#memActiveText').text(memAlloc.toFixed(1) + ' GiB');
+        $('#memSubText').text(memAlloc.toFixed(1) + ' GiB Allocated of ' + nodeTotalMem.toFixed(1) + ' GiB Total');
+        
+        $('#diskActiveText').text(diskAlloc.toFixed(1) + ' GiB');
+        $('#diskSubText').text(diskAlloc.toFixed(1) + ' GiB Allocated of ' + nodeTotalDisk.toFixed(1) + ' GiB Total');
 
-            // Update UI Texts
-            $('#cpuActiveText').text(cpuPercent.toFixed(1) + '%');
-            $('#memActiveText').text(activeMem.toFixed(1) + ' GiB');
-            $('#diskActiveText').text(activeDisk.toFixed(1) + ' GiB');
-            $('#memSubText').text(memAlloc.toFixed(1) + ' GiB Allocated of ' + nodeTotalMem.toFixed(1) + ' GiB Total');
-            $('#diskSubText').text(diskAlloc.toFixed(1) + ' GiB Allocated of ' + nodeTotalDisk.toFixed(1) + ' GiB Total');
+        let remainingDisk = Math.max(0, nodeTotalDisk - diskAlloc);
+        $('#diskRemaining').text(remainingDisk.toFixed(1) + ' GiB');
+        $('#diskRemaining').next().text('(Total Node Capacity minus Allocated Space)');
 
-            // Remaining Physical Disk = Node Total Disk - Active Used Disk
-            let remainingDisk = Math.max(0, nodeTotalDisk - activeDisk);
-            $('#diskRemaining').text(remainingDisk.toFixed(1) + ' GiB');
+        // Update Charts
+        chartCpu.data.datasets[0].data = [0, 100];
+        chartCpu.update();
 
-            // Update CPU Chart
-            chartCpu.data.datasets[0].data = [cpuPercent, Math.max(0, 100 - cpuPercent)];
-            chartCpu.update();
+        chartMem.data.datasets[0].data = [0, 100];
+        chartMem.data.datasets[1].data = [memAlloc, Math.max(0, nodeTotalMem - memAlloc)];
+        chartMem.update();
 
-            // Update Memory Chart (Inner: Active, Outer: Allocated)
-            chartMem.data.datasets[0].data = [activeMem, Math.max(0, nodeTotalMem - activeMem)];
-            chartMem.data.datasets[1].data = [memAlloc, Math.max(0, nodeTotalMem - memAlloc)];
-            chartMem.update();
-
-            // Update Disk Chart
-            chartDisk.data.datasets[0].data = [activeDisk, Math.max(0, nodeTotalDisk - activeDisk)];
-            chartDisk.data.datasets[1].data = [diskAlloc, Math.max(0, nodeTotalDisk - diskAlloc)];
-            chartDisk.update();
-
-        }).always(function() {
-            setTimeout(fetchLiveUsage, 10000);
-        });
+        chartDisk.data.datasets[0].data = [0, 100];
+        chartDisk.data.datasets[1].data = [diskAlloc, Math.max(0, nodeTotalDisk - diskAlloc)];
+        chartDisk.update();
     }
     
-    // Start polling
-    fetchLiveUsage();
+    // Set data immediately
+    setStaticUsage();
 
     </script>
 @endsection
