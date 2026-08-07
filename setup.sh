@@ -807,6 +807,7 @@ update_panel() {
     print_info "Updating Alxzen Panel to latest version..."
     
     cd "$PANEL_DIR"
+    git config --global --add safe.directory "$PANEL_DIR"
     php artisan down
 
     # Download & extract latest release
