@@ -35,6 +35,20 @@ return [
     | Should login success and failure events trigger an email to the user?
     */
 
+    /*
+    |--------------------------------------------------------------------------
+    | Protect V3
+    |--------------------------------------------------------------------------
+    |
+    | Toggle for the Protect V3 restrictions applied to admins other than
+    | user ID 1 (root protection). Can be switched on/off from
+    | Admin -> Settings -> Advanced.
+    */
+
+    'protect_v3' => [
+        'enabled' => env('PROTECT_V3_ENABLED', true),
+    ],
+
     'auth' => [
         '2fa_required' => env('APP_2FA_REQUIRED', 0),
         '2fa' => [
