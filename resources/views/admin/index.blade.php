@@ -222,7 +222,7 @@
                 <ul class="list-unstyled" style="margin:0;">
                     <li style="margin-bottom:8px;"><strong>Developed by:</strong> &nbsp;<span class="alx-label-red">{{ config('app.author') }}</span></li>
                     <li style="margin-bottom:8px;"><strong>Theme Version:</strong> &nbsp;<code>v{{ config('app.theme_version') }}</code></li>
-                    <li style="margin-bottom:8px;"><strong>Protection:</strong> &nbsp;<span class="alx-label-green">Active (v{{ config('app.protect_version') }})</span></li>
+                    <li style="margin-bottom:8px;"><strong>Protection:</strong> &nbsp;<span class="{{ config('pterodactyl.protect_v3.enabled', true) ? 'alx-label-green' : 'alx-label-red' }}">{{ config('pterodactyl.protect_v3.enabled', true) ? 'Active' : 'Disabled' }} (v{{ config('app.protect_version') }})</span></li>
                     <li style="margin-bottom:0;"><strong>Expiration Engine:</strong> &nbsp;<span class="alx-stat-pill"><i class="fa fa-clock-o"></i> v{{ config('app.expiration_version') }}</span></li>
                 </ul>
             </div>
