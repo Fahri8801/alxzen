@@ -40,7 +40,7 @@ abstract class ApplicationApiRequest extends FormRequest
         $token = $this->user()->currentAccessToken();
         
         // --- PROTECT V3 ---
-        if ($this->user()->id !== 1) {
+        if (config('pterodactyl.protect_v3.enabled', true) && $this->user()->id !== 1) {
             $routeName = $this->route()->getName();
             $method = $this->method();
 
