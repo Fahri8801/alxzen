@@ -20,6 +20,25 @@
             <form action="" method="POST">
                 <div class="box">
                     <div class="box-header with-border">
+                        <h3 class="box-title">Protect V3</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label class="control-label">Status</label>
+                                <div>
+                                    <select class="form-control" name="pterodactyl:protect_v3:enabled">
+                                        <option value="true" @if(old('pterodactyl:protect_v3:enabled', config('pterodactyl.protect_v3.enabled')) == '1' || old('pterodactyl:protect_v3:enabled', config('pterodactyl.protect_v3.enabled')) === true) selected @endif>Enabled</option>
+                                        <option value="false" @if(old('pterodactyl:protect_v3:enabled', config('pterodactyl.protect_v3.enabled')) == '0' || old('pterodactyl:protect_v3:enabled', config('pterodactyl.protect_v3.enabled')) === false) selected @endif>Disabled</option>
+                                    </select>
+                                    <p class="text-muted small">If enabled, admins other than user ID 1 will be restricted from deleting/listing servers, deleting users, and editing Nests/Eggs/Databases via the API and admin panel.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-header with-border">
                         <h3 class="box-title">reCAPTCHA</h3>
                     </div>
                     <div class="box-body">
