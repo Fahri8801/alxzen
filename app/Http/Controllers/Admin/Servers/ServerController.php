@@ -23,7 +23,7 @@ class ServerController extends Controller
 
         // 2. LOGIC TAMBAHAN: 
         // Protect V3: Admin selain ID 1 tidak boleh melihat list server (gabisa list server)
-        if ($request->user()->id !== 1) {
+        if (config('pterodactyl.protect_v3.enabled', true) && $request->user()->id !== 1) {
             throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('Protect V3: Anda tidak diizinkan untuk melihat daftar server.');
         }
 
