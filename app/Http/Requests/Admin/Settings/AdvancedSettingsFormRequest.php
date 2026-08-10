@@ -12,6 +12,7 @@ class AdvancedSettingsFormRequest extends AdminFormRequest
     public function rules(): array
     {
         return [
+            'pterodactyl:protect_v3:enabled' => 'required|in:true,false',
             'recaptcha:enabled' => 'required|in:true,false',
             'recaptcha:secret_key' => 'required|string|max:191',
             'recaptcha:website_key' => 'required|string|max:191',
@@ -37,6 +38,7 @@ class AdvancedSettingsFormRequest extends AdminFormRequest
     public function attributes(): array
     {
         return [
+            'pterodactyl:protect_v3:enabled' => 'Protect V3 (Root Protection)',
             'recaptcha:enabled' => 'reCAPTCHA Enabled',
             'recaptcha:secret_key' => 'reCAPTCHA Secret Key',
             'recaptcha:website_key' => 'reCAPTCHA Website Key',
